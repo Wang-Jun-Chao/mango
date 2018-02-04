@@ -6,12 +6,15 @@ import mango.core.extension.SPI;
 import mango.core.extension.Scope;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 策略接口
  */
 @SPI(scope = Scope.PROTOTYPE)
 public interface HaStrategy<T> {
-
+    /**
+     *
+     * @param request
+     * @param loadBalance
+     * @return
+     */
     Response call(Request request, LoadBalance loadBalance);
 }

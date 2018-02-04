@@ -3,9 +3,6 @@ package mango.rpc;
 import mango.common.URL;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
  */
 public interface Node {
 

@@ -4,12 +4,11 @@ import mango.core.Request;
 import mango.core.extension.SPI;
 import mango.core.extension.Scope;
 import mango.rpc.Reference;
+
 import java.util.List;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 负载均衡
  */
 @SPI(scope = Scope.PROTOTYPE)
 public interface LoadBalance<T> {
