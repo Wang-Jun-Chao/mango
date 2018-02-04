@@ -24,5 +24,15 @@
             <artifactId>mango-netty-rpc-kryo</artifactId>
             <version>${mango.netty.rpc.kryo.version}</version>
         </dependency>
+        <dependency>
+            <groupId>mango</groupId>
+            <artifactId>mango-netty-rpc-server</artifactId>
+            <version>${mango.netty.rpc.kryo.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mango</groupId>
+            <artifactId>mango-netty-rpc-client</artifactId>
+            <version>${mango.netty.rpc.kryo.version}</version>
+        </dependency>
     </dependencies>
 </project>
