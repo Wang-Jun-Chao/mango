@@ -22,12 +22,11 @@ import java.lang.reflect.Method;
  */
 public class RpcClient implements InvocationHandler {
 
+    TestInterface testInterface;
     private long timeoutMills = 0;
     private RpcInvokeHook rpcInvokeHook = null;
     private String host;
     private int port;
-
-    TestInterface testInterface;
 
     public RpcClient() {
     }

@@ -14,6 +14,13 @@ import java.lang.reflect.Proxy;
  */
 public class RpcClientProxyBuilder {
 
+    /**
+     * 创建代理对象的创建器
+     */
+    public static <T> ProxyBuilder<T> create(Class<T> targetClass) {
+        return new ProxyBuilder<T>(targetClass);
+    }
+
     public static class ProxyBuilder<T> {
         private Class<T> clazz;
         private RpcClient rpcClient;
@@ -73,7 +80,6 @@ public class RpcClientProxyBuilder {
         public T build() {
             rpcClient = new RpcClient(timeoutMills, rpcInvokeHook, host, port);
             rpcClient.connect();
-
             return (T) Proxy.newProxyInstance(clazz.getClassLoader(), new Class<?>[]{clazz}, rpcClient);
         }
 
@@ -85,15 +91,7 @@ public class RpcClientProxyBuilder {
         public RpcClientAsyncProxy buildAsyncProxy() {
             rpcClient = new RpcClient(timeoutMills, rpcInvokeHook, host, port);
             rpcClient.connect();
-
             return new RpcClientAsyncProxy(rpcClient);
         }
-    }
-
-    /**
-     * 创建代理对象的创建器
-     */
-    public static <T> ProxyBuilder<T> create(Class<T> targetClass) {
-        return new ProxyBuilder<T>(targetClass);
     }
 }
