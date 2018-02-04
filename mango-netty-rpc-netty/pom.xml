@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>mango</groupId>
+    <artifactId>mango-netty-rpc-netty</artifactId>
+    <version>1.0.0</version>
+
+    <properties>
+        <netty.version>4.1.20.Final</netty.version>
+        <mango.netty.rpc.kryo.version>1.0.0</mango.netty.rpc.kryo.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>mango</groupId>
+            <artifactId>mango-netty-rpc-kryo</artifactId>
+            <version>${mango.netty.rpc.kryo.version}</version>
+        </dependency>
+    </dependencies>
+</project>
