@@ -38,7 +38,6 @@ public class RpcResponseSerializer extends Serializer<RpcResponse> {
         } else {
             rpcResponse.setThrowable((Throwable) kryo.readClassAndObject(input));
         }
-
         return rpcResponse;
     }
 }
