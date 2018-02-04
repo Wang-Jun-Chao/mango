@@ -11,7 +11,6 @@ import mango.core.extension.Scope;
 @SPI(scope = Scope.PROTOTYPE)
 public interface HaStrategy<T> {
     /**
-     *
      * @param request
      * @param loadBalance
      * @return

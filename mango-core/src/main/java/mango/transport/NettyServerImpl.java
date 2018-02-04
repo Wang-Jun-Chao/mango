@@ -40,7 +40,7 @@ public class NettyServerImpl extends AbstractServer {
 
     private volatile boolean initializing = false;
 
-    public NettyServerImpl(URL url, MessageRouter router){
+    public NettyServerImpl(URL url, MessageRouter router) {
         super(url);
 
         this.localAddress = new InetSocketAddress(url.getPort());
@@ -53,7 +53,7 @@ public class NettyServerImpl extends AbstractServer {
 
     @Override
     public synchronized boolean open() {
-        if(initializing) {
+        if (initializing) {
             logger.warn("NettyServer ServerChannel is initializing: url=" + url);
             return true;
         }
@@ -92,7 +92,7 @@ public class NettyServerImpl extends AbstractServer {
                 @Override
                 public void operationComplete(ChannelFuture f) throws Exception {
 
-                    if(f.isSuccess()){
+                    if (f.isSuccess()) {
                         logger.info("Rpc Server bind port:{} success", url.getPort());
                     } else {
                         logger.error("Rpc Server bind port:{} failure", url.getPort());
@@ -146,25 +146,9 @@ public class NettyServerImpl extends AbstractServer {
         }
     }
 
-    class NettyServerHandler extends SimpleChannelInboundHandler<DefaultRequest> {
-
-        @Override
-        protected void channelRead0(ChannelHandlerContext context, DefaultRequest request) throws Exception {
-
-            logger.info("Rpc server receive request id:{}", request.getRequestId());
-            //处理请求
-            processRpcRequest(context, request);
-        }
-
-        @Override
-        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-            logger.error("NettyServerHandler exceptionCaught: remote=" + ctx.channel().remoteAddress()
-                    + " local=" + ctx.channel().localAddress(), cause);
-            ctx.channel().close();
-        }
-    }
-
-    /**处理客户端请求**/
+    /**
+     * 处理客户端请求
+     **/
     private void processRpcRequest(final ChannelHandlerContext context, final DefaultRequest request) {
         final long processStartTime = System.currentTimeMillis();
         try {
@@ -195,9 +179,27 @@ public class NettyServerImpl extends AbstractServer {
 
         DefaultResponse response = (DefaultResponse) this.router.handle(request);//;
         response.setProcessTime(System.currentTimeMillis() - processStartTime);
-        if(request.getType()!=Constants.REQUEST_ONEWAY){    //非单向调用
+        if (request.getType() != Constants.REQUEST_ONEWAY) {    //非单向调用
             context.writeAndFlush(response);
         }
         logger.info("Rpc server process request:{} end...", request.getRequestId());
+    }
+
+    class NettyServerHandler extends SimpleChannelInboundHandler<DefaultRequest> {
+
+        @Override
+        protected void channelRead0(ChannelHandlerContext context, DefaultRequest request) throws Exception {
+
+            logger.info("Rpc server receive request id:{}", request.getRequestId());
+            //处理请求
+            processRpcRequest(context, request);
+        }
+
+        @Override
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+            logger.error("NettyServerHandler exceptionCaught: remote=" + ctx.channel().remoteAddress()
+                    + " local=" + ctx.channel().localAddress(), cause);
+            ctx.channel().close();
+        }
     }
 }

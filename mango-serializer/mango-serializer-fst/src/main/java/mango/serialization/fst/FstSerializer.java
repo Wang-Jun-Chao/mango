@@ -24,6 +24,14 @@ public class FstSerializer implements Serializer {
                 }
             });
 
+    private static FSTConfiguration getFSTConfiguration(Class<?> clz) throws IOException {
+        try {
+            return configurationLoadingCache.get(clz);
+        } catch (ExecutionException e) {
+            throw new IOException("create FSTConfiguration error, class:" + clz);
+        }
+    }
+
     @Override
     public byte[] serialize(Object msg) throws IOException {
         return getFSTConfiguration(msg.getClass()).asByteArray(msg);
@@ -32,13 +40,5 @@ public class FstSerializer implements Serializer {
     @Override
     public <T> T deserialize(byte[] data, Class<T> type) throws IOException {
         return (T) getFSTConfiguration(type).asObject(data);
-    }
-
-    private static FSTConfiguration getFSTConfiguration(Class<?> clz) throws IOException {
-        try {
-            return configurationLoadingCache.get(clz);
-        } catch (ExecutionException e) {
-            throw new IOException("create FSTConfiguration error, class:"+clz);
-        }
     }
 }

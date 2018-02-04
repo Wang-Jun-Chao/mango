@@ -30,7 +30,7 @@ public class DefaultCodec extends AbstractCodec {
     public Object decode(URL url, byte messageType, byte[] data) throws IOException {
         String serialization = url.getParameter(URLParam.serialization.getName(), URLParam.serialization.getValue());
         logger.info("Codec decode serialization:{}", serialization);
-        if(messageType == Constants.FLAG_REQUEST) {
+        if (messageType == Constants.FLAG_REQUEST) {
             return deserialize(data, DefaultRequest.class, ExtensionLoader.getExtensionLoader(Serializer.class).getExtension(serialization));
         }
         return deserialize(data, DefaultResponse.class, ExtensionLoader.getExtensionLoader(Serializer.class).getExtension(serialization));

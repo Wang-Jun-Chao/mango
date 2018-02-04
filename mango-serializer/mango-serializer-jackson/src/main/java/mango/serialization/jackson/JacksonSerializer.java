@@ -3,6 +3,7 @@ package mango.serialization.jackson;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mango.codec.Serializer;
 import mango.util.StringUtils;
+
 import java.io.IOException;
 
 /**
@@ -22,7 +23,7 @@ public class JacksonSerializer implements Serializer {
 
     @Override
     public <T> T deserialize(byte[] data, Class<T> type) throws IOException {
-        String jsonString =  StringUtils.getString(data);
+        String jsonString = StringUtils.getString(data);
         return objectMapper.readValue(jsonString, type);
     }
 }

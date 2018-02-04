@@ -8,7 +8,6 @@ import mango.rpc.Reference;
 
 /**
  * ${DESCRIPTION}
- *
  */
 public class FailfastHaStrategy<T> implements HaStrategy<T> {
 

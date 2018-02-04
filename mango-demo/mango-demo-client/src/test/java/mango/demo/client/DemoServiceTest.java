@@ -33,7 +33,7 @@ public class DemoServiceTest {
     @Ignore
     public void testEcho() {
 
-        System.out.println("echo:"+demoService.echo("rpc"));
+        System.out.println("echo:" + demoService.echo("rpc"));
     }
 
     @Test
@@ -44,6 +44,6 @@ public class DemoServiceTest {
         hobbies.add("NBA");
         hobbies.add("读书");
         Map<String, String> map = demoService.introduce("hh", hobbies);
-        System.out.println("map:"+map);
+        System.out.println("map:" + map);
     }
 }

@@ -14,6 +14,11 @@ public class ClassUtils {
      * Maps primitive {@code Class}es to their corresponding wrapper {@code Class}.
      */
     private static final Map<Class<?>, Class<?>> primitiveWrapperMap = new HashMap<Class<?>, Class<?>>();
+    /**
+     * Maps wrapper {@code Class}es to their corresponding primitive types.
+     */
+    private static final Map<Class<?>, Class<?>> wrapperPrimitiveMap = new HashMap<Class<?>, Class<?>>();
+
     static {
         primitiveWrapperMap.put(Boolean.TYPE, Boolean.class);
         primitiveWrapperMap.put(Byte.TYPE, Byte.class);
@@ -26,10 +31,6 @@ public class ClassUtils {
         //primitiveWrapperMap.put(Void.TYPE, Void.TYPE);
     }
 
-    /**
-     * Maps wrapper {@code Class}es to their corresponding primitive types.
-     */
-    private static final Map<Class<?>, Class<?>> wrapperPrimitiveMap = new HashMap<Class<?>, Class<?>>();
     static {
         for (final Map.Entry<Class<?>, Class<?>> entry : primitiveWrapperMap.entrySet()) {
             final Class<?> primitiveClass = entry.getKey();
@@ -106,10 +107,10 @@ public class ClassUtils {
      */
     public static List<Class<?>> getAllInterfaces(Class<?> cls) {
         LinkedHashSet<Class<?>> interfaces = new LinkedHashSet<>();
-        while(cls!=null){
+        while (cls != null) {
             Class<?>[] arr = cls.getInterfaces();
-            if(arr!=null){
-                for(Class<?> inter : arr){
+            if (arr != null) {
+                for (Class<?> inter : arr) {
                     interfaces.add(inter);
                 }
             }

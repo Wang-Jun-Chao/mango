@@ -17,7 +17,7 @@ import java.io.IOException;
  */
 public class KryoSerializer implements Serializer {
 
-    private static final ThreadLocal<Kryo> THREAD_LOCAL = new ThreadLocal<Kryo>(){
+    private static final ThreadLocal<Kryo> THREAD_LOCAL = new ThreadLocal<Kryo>() {
         @Override
         protected Kryo initialValue() {
 
@@ -29,8 +29,8 @@ public class KryoSerializer implements Serializer {
 
     @Override
     public byte[] serialize(Object msg) throws IOException {
-        try(ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            Output output = new Output(bos)){
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             Output output = new Output(bos)) {
 
             Kryo kryo = THREAD_LOCAL.get();
             kryo.writeObject(output, msg);

@@ -10,24 +10,23 @@ import java.util.Map;
  * @author Ricky Fung
  */
 public class RpcContext {
-    private Map<Object, Object> attribute = new HashMap<>();
-    private Request request;
-    private Response response;
-    private Long requestId;
-
     private static final ThreadLocal<RpcContext> localContext = new ThreadLocal<RpcContext>() {
         protected RpcContext initialValue() {
             return new RpcContext();
         }
     };
+    private Map<Object, Object> attribute = new HashMap<>();
+    private Request request;
+    private Response response;
+    private Long requestId;
 
     public static RpcContext getContext() {
         return localContext.get();
     }
 
-    public static RpcContext init(Request request){
+    public static RpcContext init(Request request) {
         RpcContext context = new RpcContext();
-        if(request != null){
+        if (request != null) {
             context.setRequest(request);
             context.setRequestId(request.getRequestId());
         }
@@ -39,7 +38,7 @@ public class RpcContext {
         localContext.remove();
     }
 
-    public void putAttribute(Object key, Object value){
+    public void putAttribute(Object key, Object value) {
         attribute.put(key, value);
     }
 
@@ -47,7 +46,7 @@ public class RpcContext {
         return attribute.get(key);
     }
 
-    public void removeAttribute(Object key){
+    public void removeAttribute(Object key) {
         attribute.remove(key);
     }
 

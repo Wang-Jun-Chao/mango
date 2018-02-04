@@ -21,9 +21,8 @@ import java.util.Map;
 public class ReferenceConfig<T> extends AbstractInterfaceConfig {
 
     private static final long serialVersionUID = 3259358868568571457L;
-    private Class<T> interfaceClass;
     protected transient volatile T proxy;
-
+    private Class<T> interfaceClass;
     private transient volatile boolean initialized;
     private List<Cluster<T>> clusters;
 
@@ -55,7 +54,7 @@ public class ReferenceConfig<T> extends AbstractInterfaceConfig {
     }
 
     private void initProxy() {
-        if(!interfaceClass.isInterface()) {
+        if (!interfaceClass.isInterface()) {
             throw new IllegalArgumentException("<mango:reference interface=\"\" /> is not interface!");
         }
 
@@ -68,11 +67,11 @@ public class ReferenceConfig<T> extends AbstractInterfaceConfig {
 
         clusters = new ArrayList<>(protocols.size());
         String proxyType = null;
-        for(ProtocolConfig protocol : protocols) {
+        for (ProtocolConfig protocol : protocols) {
 
             Map<String, String> map = new HashMap<>();
             map.put(URLParam.application.getName(), StringUtils.isNotEmpty(application.getName()) ? application.getName() : URLParam.application.getValue());
-            map.put(URLParam.serialization.getName(), StringUtils.isNotEmpty(protocol.getSerialization()) ? protocol.getSerialization(): URLParam.serialization.getValue());
+            map.put(URLParam.serialization.getName(), StringUtils.isNotEmpty(protocol.getSerialization()) ? protocol.getSerialization() : URLParam.serialization.getValue());
             map.put(URLParam.version.getName(), StringUtils.isNotEmpty(version) ? version : URLParam.version.getValue());
             map.put(URLParam.group.getName(), StringUtils.isNotEmpty(group) ? group : URLParam.group.getValue());
             map.put(URLParam.side.getName(), Constants.CONSUMER);

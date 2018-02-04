@@ -13,11 +13,11 @@ import java.util.List;
 @SPI(scope = Scope.PROTOTYPE)
 public interface Cluster<T> extends Caller<T> {
 
-    void setLoadBalance(LoadBalance<T> loadBalance);
-
     void setHaStrategy(HaStrategy<T> haStrategy);
 
     List<Reference<T>> getReferences();
 
     LoadBalance<T> getLoadBalance();
+
+    void setLoadBalance(LoadBalance<T> loadBalance);
 }

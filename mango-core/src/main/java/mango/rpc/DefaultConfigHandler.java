@@ -65,7 +65,7 @@ public class DefaultConfigHandler implements ConfigHandler {
     public <T> void unexport(List<Exporter<T>> exporters, ArrayListMultimap<URL, URL> registryUrls) {
         try {
             unRegister(registryUrls);
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.warn("Exception when unexport registryUrls:{}", registryUrls);
         }
 
@@ -100,7 +100,7 @@ public class DefaultConfigHandler implements ConfigHandler {
             RegistryFactory registryFactory = ExtensionLoader.getExtensionLoader(RegistryFactory.class).getExtension(registryUrl.getProtocol());
             if (registryFactory == null) {
                 throw new RpcFrameworkException("register error! Could not find extension for registry protocol:" + registryUrl.getProtocol()
-                                + ", make sure registry module for " + registryUrl.getProtocol() + " is in classpath!");
+                        + ", make sure registry module for " + registryUrl.getProtocol() + " is in classpath!");
             }
             try {
                 Registry registry = registryFactory.getRegistry(registryUrl);

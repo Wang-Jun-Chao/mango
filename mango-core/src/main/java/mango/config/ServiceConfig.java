@@ -47,8 +47,8 @@ public class ServiceConfig<T> extends AbstractInterfaceConfig {
         } catch (ClassNotFoundException e) {
             throw new IllegalStateException(e.getMessage(), e);
         }
-        if(!interfaceClass.isAssignableFrom(ref.getClass())) {
-            throw new IllegalArgumentException(ref.getClass() +" is not "+interfaceClass+" sub class!");
+        if (!interfaceClass.isAssignableFrom(ref.getClass())) {
+            throw new IllegalArgumentException(ref.getClass() + " is not " + interfaceClass + " sub class!");
         }
 
         if (getRegistries() == null || getRegistries().isEmpty()) {
@@ -60,7 +60,7 @@ public class ServiceConfig<T> extends AbstractInterfaceConfig {
             throw new IllegalStateException("Should set registry config for service:" + interfaceClass.getName());
         }
 
-        for(ProtocolConfig protocol : protocols) {
+        for (ProtocolConfig protocol : protocols) {
 
             doExport(protocol, registryUrls);
         }
@@ -80,14 +80,14 @@ public class ServiceConfig<T> extends AbstractInterfaceConfig {
         map.put(URLParam.application.getName(), StringUtils.isNotEmpty(application.getName()) ? application.getName() : URLParam.application.getValue());
         map.put(URLParam.version.getName(), StringUtils.isNotEmpty(version) ? version : URLParam.version.getValue());
         map.put(URLParam.group.getName(), StringUtils.isNotEmpty(group) ? group : URLParam.group.getValue());
-        map.put(URLParam.serialization.getName(), StringUtils.isNotEmpty(protocol.getSerialization()) ? protocol.getSerialization(): URLParam.serialization.getValue());
-        map.put(URLParam.requestTimeout.getName(), timeout!=null ? timeout.toString() : URLParam.requestTimeout.getValue());
+        map.put(URLParam.serialization.getName(), StringUtils.isNotEmpty(protocol.getSerialization()) ? protocol.getSerialization() : URLParam.serialization.getValue());
+        map.put(URLParam.requestTimeout.getName(), timeout != null ? timeout.toString() : URLParam.requestTimeout.getValue());
         map.put(URLParam.side.getName(), Constants.PROVIDER);
         map.put(URLParam.timestamp.getName(), String.valueOf(System.currentTimeMillis()));
 
         URL serviceUrl = new URL(protocolName, hostAddress, port, interfaceClass.getName(), map);
 
-        for(URL ru : registryUrls) {
+        for (URL ru : registryUrls) {
             registeredUrls.put(serviceUrl, ru);
         }
 
@@ -117,7 +117,7 @@ public class ServiceConfig<T> extends AbstractInterfaceConfig {
 
     protected void destroy0() throws Exception {
 
-        if(!exported) {
+        if (!exported) {
             return;
         }
 

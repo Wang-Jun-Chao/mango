@@ -18,10 +18,10 @@ public class ReflectUtils {
     private static final String GETTER_PREFIX = "get";
     private static final String IS_PREFIX = "is";
 
-    public static Field getField(Class<?> clazz, String fieldName){
+    public static Field getField(Class<?> clazz, String fieldName) {
         for (Class<?> searchType = clazz; searchType != Object.class; searchType = searchType.getSuperclass()) {
             try {
-                Field field =  searchType.getDeclaredField(fieldName);
+                Field field = searchType.getDeclaredField(fieldName);
                 field.setAccessible(true);
                 return field;
             } catch (NoSuchFieldException e) {
@@ -72,11 +72,11 @@ public class ReflectUtils {
         return null;
     }
 
-    public static Method[] getMethods(final Class<?> cls){
+    public static Method[] getMethods(final Class<?> cls) {
         return cls.getMethods();
     }
 
-    public static Method[] getDeclaredMethods(final Class<?> cls){
+    public static Method[] getDeclaredMethods(final Class<?> cls) {
         return cls.getDeclaredMethods();
     }
 

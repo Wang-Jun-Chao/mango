@@ -1,7 +1,6 @@
 package mango.exception;
 
 /**
- *
  * @author Ricky Fung
  */
 public class RpcFrameworkException extends AbstractRpcException {

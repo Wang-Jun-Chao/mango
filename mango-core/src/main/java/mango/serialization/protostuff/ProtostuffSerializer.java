@@ -26,6 +26,14 @@ public class ProtostuffSerializer implements Serializer {
                 }
             });
 
+    private static Schema getSchema(Class<?> cls) throws IOException {
+        try {
+            return schemas.get(cls);
+        } catch (ExecutionException e) {
+            throw new IOException("create protostuff schema error", e);
+        }
+    }
+
     @Override
     public byte[] serialize(Object msg) throws IOException {
         LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
@@ -44,13 +52,5 @@ public class ProtostuffSerializer implements Serializer {
         T msg = schema.newMessage();
         ProtostuffIOUtil.mergeFrom(buf, msg, schema);
         return (T) msg;
-    }
-
-    private static Schema getSchema(Class<?> cls) throws IOException {
-        try {
-            return schemas.get(cls);
-        } catch (ExecutionException e) {
-            throw new IOException("create protostuff schema error", e);
-        }
     }
 }

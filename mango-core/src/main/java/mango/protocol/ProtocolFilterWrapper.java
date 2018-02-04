@@ -10,6 +10,7 @@ import mango.rpc.Protocol;
 import mango.rpc.Provider;
 import mango.rpc.Reference;
 import mango.util.Constants;
+
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ public class ProtocolFilterWrapper implements Protocol {
 
     public ProtocolFilterWrapper(Protocol protocol) {
         if (protocol == null) {
-            throw new RpcFrameworkException("Protocol is null when construct "+this.getClass().getName());
+            throw new RpcFrameworkException("Protocol is null when construct " + this.getClass().getName());
         }
         this.protocol = protocol;
     }

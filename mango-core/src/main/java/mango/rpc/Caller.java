@@ -4,7 +4,6 @@ import mango.core.Request;
 import mango.core.Response;
 
 /**
- *
  * @author Ricky Fung
  */
 public interface Caller<T> extends Node {

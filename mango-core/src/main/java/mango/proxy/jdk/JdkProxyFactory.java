@@ -1,6 +1,7 @@
 package mango.proxy.jdk;
 
 import mango.proxy.ProxyFactory;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 

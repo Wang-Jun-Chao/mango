@@ -1,6 +1,7 @@
 package mango.proxy;
 
 import mango.core.extension.SPI;
+
 import java.lang.reflect.InvocationHandler;
 
 /**

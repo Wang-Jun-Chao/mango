@@ -12,10 +12,9 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public abstract class AbstractReference<T> implements Reference<T> {
     protected Class<T> clz;
-    private URL url;
     protected URL serviceUrl;
-
     protected AtomicInteger activeCounter = new AtomicInteger(0);
+    private URL url;
 
     public AbstractReference(Class<T> clz, URL serviceUrl) {
         this.clz = clz;

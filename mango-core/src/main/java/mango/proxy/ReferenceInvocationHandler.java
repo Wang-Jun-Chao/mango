@@ -37,7 +37,7 @@ public class ReferenceInvocationHandler<T> implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         //toString,equals,hashCode,finalize等接口未声明的方法不进行远程调用
-        if(method.getDeclaringClass().equals(Object.class)){
+        if (method.getDeclaringClass().equals(Object.class)) {
             if ("toString".equals(method.getName())) {
                 return "";
             }
@@ -74,10 +74,10 @@ public class ReferenceInvocationHandler<T> implements InvocationHandler {
                         throw new RpcServiceException(msg);
                     }
                 } else if (!throwException) {
-                    logger.warn(this.getClass().getSimpleName()+" invoke false, so return default value: uri=" + cluster.getUrl().getUri(), e);
+                    logger.warn(this.getClass().getSimpleName() + " invoke false, so return default value: uri=" + cluster.getUrl().getUri(), e);
                     return getDefaultReturnValue(method.getReturnType());
                 } else {
-                    logger.error(this.getClass().getSimpleName()+" invoke Error: uri=" + cluster.getUrl().getUri(), e);
+                    logger.error(this.getClass().getSimpleName() + " invoke Error: uri=" + cluster.getUrl().getUri(), e);
                     throw e;
                 }
             }
@@ -87,7 +87,7 @@ public class ReferenceInvocationHandler<T> implements InvocationHandler {
 
     private boolean checkMethodExceptionSignature(Method method) {
         Class<?>[] exps = method.getExceptionTypes();
-        return exps!=null && exps.length>0;
+        return exps != null && exps.length > 0;
     }
 
     public Object getValue(Response resp) {

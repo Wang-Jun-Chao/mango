@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- *
  * @author Ricky Fung
  */
 public class MessageRouter implements MessageHandler {
@@ -20,7 +19,8 @@ public class MessageRouter implements MessageHandler {
 
     private ConcurrentHashMap<String, Provider<?>> providers = new ConcurrentHashMap<>();
 
-    public MessageRouter() {}
+    public MessageRouter() {
+    }
 
     public MessageRouter(Provider<?> provider) {
         addProvider(provider);
@@ -37,7 +37,7 @@ public class MessageRouter implements MessageHandler {
             logger.error(this.getClass().getSimpleName() + " handler Error: provider not exist serviceKey=" + serviceKey);
             RpcFrameworkException exception =
                     new RpcFrameworkException(this.getClass().getSimpleName() + " handler Error: provider not exist serviceKey="
-                            + serviceKey );
+                            + serviceKey);
 
             DefaultResponse response = new DefaultResponse();
             response.setException(exception);

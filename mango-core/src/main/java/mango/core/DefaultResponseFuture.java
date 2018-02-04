@@ -21,9 +21,9 @@ public class DefaultResponseFuture<T> extends AbstractResponseFuture<T> {
 
     @Override
     public T get() throws InterruptedException {
-        if(!this.isDone()) {
+        if (!this.isDone()) {
             boolean wait = this.prepareForWait();
-            if(wait) {
+            if (wait) {
                 this.latch.await();
             }
         }
@@ -32,16 +32,16 @@ public class DefaultResponseFuture<T> extends AbstractResponseFuture<T> {
 
     @Override
     public boolean isSuccess() {
-        return isDone() && err==null;
+        return isDone() && err == null;
     }
 
     @Override
     public void setResult(T result) {
-        synchronized(this) {
-            if(!this.isDone()) {
+        synchronized (this) {
+            if (!this.isDone()) {
                 this.result = result;
                 this.state = FutureState.DONE;
-                if(this.latch != null) {
+                if (this.latch != null) {
                     this.latch.countDown();
                 }
             }
@@ -50,15 +50,15 @@ public class DefaultResponseFuture<T> extends AbstractResponseFuture<T> {
 
     @Override
     public void setFailure(Throwable throwable) {
-        if(!(throwable instanceof IOException) && !(throwable instanceof SecurityException)) {
+        if (!(throwable instanceof IOException) && !(throwable instanceof SecurityException)) {
             throwable = new IOException(throwable);
         }
 
-        synchronized(this) {
-            if(!this.isDone()) {
+        synchronized (this) {
+            if (!this.isDone()) {
                 this.err = throwable;
                 this.state = FutureState.DONE;
-                if(this.latch != null) {
+                if (this.latch != null) {
                     this.latch.countDown();
                 }
             }
@@ -66,8 +66,8 @@ public class DefaultResponseFuture<T> extends AbstractResponseFuture<T> {
     }
 
     private T returnResult() throws CancellationException {
-        if(this.err != null) {
-            if(this.state == FutureState.CANCELLED) {
+        if (this.err != null) {
+            if (this.state == FutureState.CANCELLED) {
                 throw new CancellationException();
             } else {
                 throw new RpcFrameworkException(this.err);
@@ -78,11 +78,11 @@ public class DefaultResponseFuture<T> extends AbstractResponseFuture<T> {
     }
 
     private boolean prepareForWait() {
-        synchronized(this) {
-            if(this.isDone()) {
+        synchronized (this) {
+            if (this.isDone()) {
                 return false;
             } else {
-                if(this.latch == null) {
+                if (this.latch == null) {
                     this.latch = new CountDownLatch(1);
                 }
                 return true;

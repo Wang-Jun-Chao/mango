@@ -32,12 +32,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class NettyClientImpl extends AbstractClient {
 
-    private EventLoopGroup group = new NioEventLoopGroup();
-    private Bootstrap b = new Bootstrap();
-
     private final ConcurrentHashMap<Long, ResponseFuture> responseFutureMap =
             new ConcurrentHashMap<>(256);
-
+    private EventLoopGroup group = new NioEventLoopGroup();
+    private Bootstrap b = new Bootstrap();
     private ScheduledExecutorService scheduledExecutorService;
     private int timeout;
 
@@ -65,13 +63,13 @@ public class NettyClientImpl extends AbstractClient {
     @Override
     public synchronized boolean open() {
 
-        if(initializing){
+        if (initializing) {
             logger.warn("NettyClient is initializing: url=" + url);
             return true;
         }
         initializing = true;
 
-        if(state.isAvailable()){
+        if (state.isAvailable()) {
             logger.warn("NettyClient has initialized: url=" + url);
             return true;
         }
@@ -145,7 +143,7 @@ public class NettyClientImpl extends AbstractClient {
             });
             return rpcFuture.get();
         } else {
-            throw new TransportException("channel not active. request id:"+request.getRequestId());
+            throw new TransportException("channel not active. request id:" + request.getRequestId());
         }
     }
 
@@ -168,7 +166,7 @@ public class NettyClientImpl extends AbstractClient {
             });
             return rpcFuture;
         } else {
-            throw new TransportException("channel not active. request id:"+request.getRequestId());
+            throw new TransportException("channel not active. request id:" + request.getRequestId());
         }
     }
 
@@ -189,7 +187,7 @@ public class NettyClientImpl extends AbstractClient {
                 }
             });
         } else {
-            throw new TransportException("channel not active. request id:"+request.getRequestId());
+            throw new TransportException("channel not active. request id:" + request.getRequestId());
         }
     }
 
@@ -201,7 +199,7 @@ public class NettyClientImpl extends AbstractClient {
     @Override
     public synchronized void close(int timeout) {
 
-        if(state.isClosed()){
+        if (state.isClosed()) {
             logger.info("NettyClient close fail: already close, url={}", url.getUri());
             return;
         }
@@ -217,41 +215,13 @@ public class NettyClientImpl extends AbstractClient {
 
     }
 
-    private class NettyClientHandler extends ChannelInboundHandlerAdapter {
-        private Logger logger = LoggerFactory.getLogger(getClass());
-
-        @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg)
-                throws Exception {
-
-            logger.info("client read msg:{}, ", msg);
-            if(msg instanceof Response) {
-                DefaultResponse response = (DefaultResponse) msg;
-
-                ResponseFuture<Response> rpcFuture =responseFutureMap.get(response.getRequestId());
-                if(rpcFuture!=null) {
-                    responseFutureMap.remove(response.getRequestId());
-                    rpcFuture.setResult(response);
-                }
-
-            }
-        }
-
-        @Override
-        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-                throws Exception {
-            logger.error("client caught exception", cause);
-            ctx.close();
-        }
-    }
-
     private Channel getChannel() throws InterruptedException {
 
         if (this.channelWrapper != null && this.channelWrapper.isActive()) {
             return this.channelWrapper.getChannel();
         }
 
-        synchronized (this){
+        synchronized (this) {
             // 发起异步连接操作
             ChannelFuture channelFuture = b.connect(this.remoteAddress).sync();
             this.channelWrapper = new ChannelWrapper(channelFuture);
@@ -260,7 +230,9 @@ public class NettyClientImpl extends AbstractClient {
         return this.channelWrapper.getChannel();
     }
 
-    /**定时清理超时Future**/
+    /**
+     * 定时清理超时Future
+     **/
     private void scanRpcFutureTable() {
 
         long currentTime = System.currentTimeMillis();
@@ -280,6 +252,34 @@ public class NettyClientImpl extends AbstractClient {
 
         for (ResponseFuture future : timeoutFutureList) {
             //释放资源
+        }
+    }
+
+    private class NettyClientHandler extends ChannelInboundHandlerAdapter {
+        private Logger logger = LoggerFactory.getLogger(getClass());
+
+        @Override
+        public void channelRead(ChannelHandlerContext ctx, Object msg)
+                throws Exception {
+
+            logger.info("client read msg:{}, ", msg);
+            if (msg instanceof Response) {
+                DefaultResponse response = (DefaultResponse) msg;
+
+                ResponseFuture<Response> rpcFuture = responseFutureMap.get(response.getRequestId());
+                if (rpcFuture != null) {
+                    responseFutureMap.remove(response.getRequestId());
+                    rpcFuture.setResult(response);
+                }
+
+            }
+        }
+
+        @Override
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
+                throws Exception {
+            logger.error("client caught exception", cause);
+            ctx.close();
         }
     }
 }

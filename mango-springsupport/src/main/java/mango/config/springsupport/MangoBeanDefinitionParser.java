@@ -28,16 +28,6 @@ public class MangoBeanDefinitionParser implements BeanDefinitionParser {
         this.required = required;
     }
 
-    @Override
-    public BeanDefinition parse(Element element, ParserContext parserContext) {
-        try {
-            return parse(element, parserContext, beanClass, required);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
     @SuppressWarnings({"rawtypes", "unchecked"})
     private static BeanDefinition parse(Element element, ParserContext parserContext, Class<?> beanClass, boolean required)
             throws ClassNotFoundException {
@@ -154,7 +144,7 @@ public class MangoBeanDefinitionParser implements BeanDefinitionParser {
 
         String value = element.getAttribute(name);
         if (StringUtils.isNotBlank(value)) {
-            String property = alias!=null ? alias:name;
+            String property = alias != null ? alias : name;
             bd.getPropertyValues().addPropertyValue(property, value);
         }
     }
@@ -189,5 +179,15 @@ public class MangoBeanDefinitionParser implements BeanDefinitionParser {
             }
         }
         bd.getPropertyValues().addPropertyValue(property, list);
+    }
+
+    @Override
+    public BeanDefinition parse(Element element, ParserContext parserContext) {
+        try {
+            return parse(element, parserContext, beanClass, required);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 }

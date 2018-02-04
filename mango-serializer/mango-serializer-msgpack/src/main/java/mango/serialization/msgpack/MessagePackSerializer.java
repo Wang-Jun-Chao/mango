@@ -3,6 +3,7 @@ package mango.serialization.msgpack;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import mango.codec.Serializer;
 import org.msgpack.jackson.dataformat.MessagePackFactory;
+
 import java.io.IOException;
 
 /**
@@ -12,7 +13,8 @@ import java.io.IOException;
  */
 public class MessagePackSerializer implements Serializer {
 
-    private final ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());;
+    private final ObjectMapper objectMapper = new ObjectMapper(new MessagePackFactory());
+    ;
 
     @Override
     public byte[] serialize(Object msg) throws IOException {

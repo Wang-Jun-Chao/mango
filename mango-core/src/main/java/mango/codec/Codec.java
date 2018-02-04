@@ -3,7 +3,6 @@ package mango.codec;
 import mango.common.URL;
 import mango.core.extension.SPI;
 import mango.util.Constants;
-import io.netty.channel.Channel;
 
 import java.io.IOException;
 

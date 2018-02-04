@@ -34,7 +34,7 @@ public class ChannelWrapper {
         return channelFuture;
     }
 
-    public void close(){
+    public void close() {
         getChannel().close().addListener(new ChannelFutureListener() {
             @Override
             public void operationComplete(ChannelFuture future) throws Exception {

@@ -10,9 +10,13 @@ import mango.util.Constants;
 public enum URLParam {
 
     application("application", ""),
-    /** version **/
+    /**
+     * version
+     **/
     version("version", "1.0.0"),
-    /** group **/
+    /**
+     * group
+     **/
     group("group", "default_rpc"),
 
     protocol("protocol", Constants.FRAMEWORK_NAME),
@@ -20,19 +24,29 @@ public enum URLParam {
     host("host", ""),
     port("port", 0),
 
-    /** request timeout **/
+    /**
+     * request timeout
+     **/
     requestTimeout("timeout", 500),
-    /** connect timeout **/
+    /**
+     * connect timeout
+     **/
     connectTimeout("connectTimeout", 1000),
-    /** service min worker threads **/
+    /**
+     * service min worker threads
+     **/
     minWorkerThread("minWorkerThread", 20),
-    /** service max worker threads **/
+    /**
+     * service max worker threads
+     **/
     maxWorkerThread("maxWorkerThread", 200),
 
-    /**netty**/
-    maxContentLength("maxContentLength", 1<<24),
+    /**
+     * netty最大的内容长度，8MB
+     **/
+    maxContentLength("maxContentLength", 1 << 24),
 
-    bufferSize("buffer_size", 1024*16),
+    bufferSize("buffer_size", 1024 * 16),
 
     loadBalance("loadbalance", "random"),
     haStrategy("haStrategy", "failfast"),
@@ -42,19 +56,25 @@ public enum URLParam {
 
     proxyType("proxy", "jdk"),
 
-    /**Registry**/
+    /**
+     * Registry
+     **/
     registryProtocol("reg_protocol", "local"),
     registryAddress("reg_address", "localhost"),
 
-    registrySessionTimeout("reg_session_timeout", 60*1000),
+    registrySessionTimeout("reg_session_timeout", 60 * 1000),
     registryConnectTimeout("reg_connect_timeout", 5000),
 
     side("side", ""),
     timestamp("timestamp", 0),
 
-    /** serialize **/
+    /**
+     * serialize
+     **/
     serialization("serialization", "protostuff"),
-    /** codec **/
+    /**
+     * codec
+     **/
     codec("codec", Constants.FRAMEWORK_NAME);
 
     private String name;

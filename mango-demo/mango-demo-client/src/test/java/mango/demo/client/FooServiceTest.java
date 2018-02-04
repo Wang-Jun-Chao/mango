@@ -39,7 +39,7 @@ public class FooServiceTest {
 
         try {
             System.out.println(fooService.order(null));
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

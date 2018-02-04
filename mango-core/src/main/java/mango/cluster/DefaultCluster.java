@@ -67,12 +67,12 @@ public class DefaultCluster<T> implements Cluster<T>, NotifyListener {
             registry.subscribe(subscribeUrl, this);
         }
 
-        logger.info("Cluster init over, url:{}, references size:{}", url, references!=null ? references.size():0);
+        logger.info("Cluster init over, url:{}, references size:{}", url, references != null ? references.size() : 0);
         boolean check = Boolean.parseBoolean(url.getParameter(URLParam.check.getName(), URLParam.check.getValue()));
-        if(CollectionUtil.isEmpty(references)) {
+        if (CollectionUtil.isEmpty(references)) {
             logger.warn(String.format("Cluster No service urls for the reference:%s, registries:%s",
                     this.url, registryUrls));
-            if(check) {
+            if (check) {
                 throw new RpcFrameworkException(String.format("Cluster No service urls for the reference:%s, registries:%s",
                         this.url, registryUrls));
             }
@@ -92,7 +92,7 @@ public class DefaultCluster<T> implements Cluster<T>, NotifyListener {
                 logger.warn(String.format("Unregister or unsubscribe false for url (%s), registry= %s", url, ru), e);
             }
         }
-        if(references!=null) {
+        if (references != null) {
             for (Reference<T> reference : this.references) {
                 reference.destroy();
             }
@@ -122,7 +122,7 @@ public class DefaultCluster<T> implements Cluster<T>, NotifyListener {
 
     @Override
     public Response call(Request request) {
-        if(available) {
+        if (available) {
             try {
                 return haStrategy.call(request, loadBalance);
             } catch (Exception e) {
@@ -143,11 +143,6 @@ public class DefaultCluster<T> implements Cluster<T>, NotifyListener {
     }
 
     @Override
-    public void setLoadBalance(LoadBalance<T> loadBalance) {
-        this.loadBalance = loadBalance;
-    }
-
-    @Override
     public void setHaStrategy(HaStrategy<T> haStrategy) {
         this.haStrategy = haStrategy;
     }
@@ -160,6 +155,11 @@ public class DefaultCluster<T> implements Cluster<T>, NotifyListener {
     @Override
     public LoadBalance<T> getLoadBalance() {
         return loadBalance;
+    }
+
+    @Override
+    public void setLoadBalance(LoadBalance<T> loadBalance) {
+        this.loadBalance = loadBalance;
     }
 
     @Override

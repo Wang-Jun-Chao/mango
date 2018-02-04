@@ -4,11 +4,17 @@ package mango.core;
  * @author Ricky Fung
  */
 public enum FutureState {
-    /** the task is doing **/
+    /**
+     * the task is doing
+     **/
     NEW(0),
-    /** the task is done **/
+    /**
+     * the task is done
+     **/
     DONE(1),
-    /** ths task is cancelled **/
+    /**
+     * ths task is cancelled
+     **/
     CANCELLED(2);
 
     private int state;

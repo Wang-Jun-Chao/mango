@@ -17,15 +17,15 @@ public class MethodTest {
         Class<?> clz = FooService.class;
         Method method = clz.getMethod("order", String.class);
 
-        System.out.println("returnType:"+method.getReturnType());
+        System.out.println("returnType:" + method.getReturnType());
 
         Class<?>[] exceptionTypes = method.getExceptionTypes();
-        System.out.println("exceptionTypes:"+ Arrays.toString(exceptionTypes));
+        System.out.println("exceptionTypes:" + Arrays.toString(exceptionTypes));
 
         method = clz.getMethod("hello", String.class);
-        System.out.println("returnType:"+method.getReturnType());
+        System.out.println("returnType:" + method.getReturnType());
 
         exceptionTypes = method.getExceptionTypes();
-        System.out.println("exceptionTypes:"+Arrays.toString(exceptionTypes));
+        System.out.println("exceptionTypes:" + Arrays.toString(exceptionTypes));
     }
 }

@@ -20,12 +20,12 @@ public class DemoServiceImpl implements DemoService {
 
     @Override
     public String echo(String msg) {
-        return "hello, "+msg;
+        return "hello, " + msg;
     }
 
     @Override
     public Map<String, String> introduce(String name, List<String> hobbies) {
-        System.out.println("name:"+name + ", hobbies:"+hobbies);
+        System.out.println("name:" + name + ", hobbies:" + hobbies);
         Map<String, String> map = new HashMap<>();
         map.put("name", name);
         return map;

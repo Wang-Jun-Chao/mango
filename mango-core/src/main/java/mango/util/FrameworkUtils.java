@@ -15,9 +15,10 @@ public class FrameworkUtils {
 
     /**
      * 默认本地注册中心
+     *
      * @return local registry
      */
-    public static RegistryConfig getDefaultRegistryConfig(){
+    public static RegistryConfig getDefaultRegistryConfig() {
         RegistryConfig local = new RegistryConfig();
         local.setProtocol(Constants.REGISTRY_PROTOCOL_LOCAL);
         return local;

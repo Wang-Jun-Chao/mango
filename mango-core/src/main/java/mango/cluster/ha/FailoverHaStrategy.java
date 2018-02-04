@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * ${DESCRIPTION}
- *
  */
 public class FailoverHaStrategy<T> implements HaStrategy<T> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -24,7 +23,7 @@ public class FailoverHaStrategy<T> implements HaStrategy<T> {
         Reference<T> reference = loadBalance.select(request);
         URL refUrl = reference.getUrl();
         int tryCount = refUrl.getIntParameter(URLParam.retries.getName(), URLParam.retries.getIntValue());
-        if(tryCount<0){
+        if (tryCount < 0) {
             tryCount = 0;
         }
         for (int i = 0; i <= tryCount; i++) {

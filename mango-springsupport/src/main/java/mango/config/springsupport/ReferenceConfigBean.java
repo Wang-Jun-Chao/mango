@@ -54,17 +54,17 @@ public class ReferenceConfigBean<T> extends ReferenceConfig<T> implements
         checkProtocolConfig();
         checkRegistryConfig();
 
-        if(StringUtils.isEmpty(getGroup())) {
+        if (StringUtils.isEmpty(getGroup())) {
             setGroup(URLParam.group.getValue());
         }
-        if(StringUtils.isEmpty(getVersion())) {
+        if (StringUtils.isEmpty(getVersion())) {
             setVersion(URLParam.version.getValue());
         }
 
-        if(getTimeout()==null) {
+        if (getTimeout() == null) {
             setTimeout(URLParam.requestTimeout.getIntValue());
         }
-        if(getRetries()==null) {
+        if (getRetries() == null) {
             setRetries(URLParam.retries.getIntValue());
         }
     }

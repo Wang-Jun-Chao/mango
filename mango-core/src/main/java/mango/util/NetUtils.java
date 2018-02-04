@@ -12,17 +12,12 @@ import java.util.regex.Pattern;
  * @author Ricky Fung
  */
 public class NetUtils {
-    private static final Logger logger = LoggerFactory.getLogger(NetUtils.class);
-
     public static final String LOCALHOST = "127.0.0.1";
-
     public static final String ANYHOST = "0.0.0.0";
-
-    private static volatile InetAddress LOCAL_ADDRESS = null;
-
+    private static final Logger logger = LoggerFactory.getLogger(NetUtils.class);
     private static final Pattern ADDRESS_PATTERN = Pattern.compile("^\\d{1,3}(\\.\\d{1,3}){3}\\:\\d{1,5}$");
-
     private static final Pattern IP_PATTERN = Pattern.compile("\\d{1,3}(\\.\\d{1,3}){3,5}$");
+    private static volatile InetAddress LOCAL_ADDRESS = null;
 
     public static InetSocketAddress parseSocketAddress(final String addr) {
         String[] arr = addr.split(":");
@@ -84,7 +79,8 @@ public class NetUtils {
                 } finally {
                     try {
                         socket.close();
-                    } catch (Throwable e) {}
+                    } catch (Throwable e) {
+                    }
                 }
             } catch (Exception e) {
                 logger.warn(String.format("Failed to retriving local address by connecting to dest host:port(%s:%s) false, e=%s", host,

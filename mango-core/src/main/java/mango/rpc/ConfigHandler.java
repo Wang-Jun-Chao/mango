@@ -6,7 +6,6 @@ import mango.common.URL;
 import mango.core.extension.SPI;
 import mango.util.Constants;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -21,6 +20,7 @@ public interface ConfigHandler {
 
     /**
      * 引用服务
+     *
      * @param interfaceClass
      * @param cluster
      * @param <T>
@@ -30,6 +30,7 @@ public interface ConfigHandler {
 
     /**
      * 暴露服务
+     *
      * @param interfaceClass
      * @param ref
      * @param serviceUrl

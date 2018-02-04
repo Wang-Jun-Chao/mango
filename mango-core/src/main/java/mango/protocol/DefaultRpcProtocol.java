@@ -65,9 +65,9 @@ public class DefaultRpcProtocol extends AbstractProtocol {
 
         @Override
         public void destroy() {
-            try{
+            try {
                 client.close();
-            } catch (Exception e){
+            } catch (Exception e) {
                 logger.error("reference destroy error", e);
             }
         }

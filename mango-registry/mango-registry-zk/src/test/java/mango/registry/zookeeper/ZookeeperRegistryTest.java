@@ -4,8 +4,6 @@ import mango.common.URL;
 import mango.common.URLParam;
 import mango.util.Constants;
 import org.I0Itec.zkclient.ZkClient;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -26,7 +24,7 @@ public class ZookeeperRegistryTest {
     public void init() {
         url = new URL(URLParam.codec.getName(), "192.168.1.100", Constants.DEFAULT_PORT, interfaceName);
 
-        ZkClient zkClient = new ZkClient(zkServers, 60*1000, 2000);
+        ZkClient zkClient = new ZkClient(zkServers, 60 * 1000, 2000);
         zookeeperRegistry = new ZookeeperRegistry(url, zkClient);
     }
 

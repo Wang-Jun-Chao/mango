@@ -1,10 +1,9 @@
-<xsd:schema xmlns="http://code.mindflow.com/schema/mango"
-            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:tool="http://www.springframework.org/schema/tool"
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:beans="http://www.springframework.org/schema/beans"
+            xmlns="http://code.mindflow.com/schema/mango"
             targetNamespace="http://code.mindflow.com/schema/mango">
 
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:import namespace="http://www.springframework.org/schema/tool"/>
     <xsd:import namespace="http://www.springframework.org/schema/beans"/>
 
@@ -12,9 +11,9 @@
 
     <xsd:complexType name="abstractConfig">
         <xsd:choice minOccurs="0" maxOccurs="unbounded">
-            <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:choice>
-        <xsd:anyAttribute namespace="##other" processContents="lax" />
+        <xsd:anyAttribute namespace="##other" processContents="lax"/>
     </xsd:complexType>
 
     <xsd:element name="service">
@@ -22,7 +21,7 @@
             <xsd:complexContent>
                 <xsd:extension base="abstractConfig">
                     <xsd:choice minOccurs="0" maxOccurs="unbounded">
-                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded" />
+                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded"/>
                     </xsd:choice>
                     <xsd:attribute name="id" type="xsd:ID">
                         <xsd:annotation>
@@ -51,9 +50,9 @@
             <xsd:complexContent>
                 <xsd:extension base="abstractConfig">
                     <xsd:choice minOccurs="0" maxOccurs="unbounded">
-                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded" />
+                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded"/>
                     </xsd:choice>
-                    <xsd:attribute name="id" type="xsd:ID" />
+                    <xsd:attribute name="id" type="xsd:ID"/>
                     <xsd:attribute name="interface" type="xsd:string" use="required"/>
                     <xsd:attribute name="group" type="xsd:string" use="optional"/>
                     <xsd:attribute name="version" type="xsd:string" use="optional"/>
@@ -71,9 +70,9 @@
             <xsd:complexContent>
                 <xsd:extension base="abstractConfig">
                     <xsd:choice minOccurs="0" maxOccurs="unbounded">
-                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded" />
+                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded"/>
                     </xsd:choice>
-                    <xsd:attribute name="id" type="xsd:ID" />
+                    <xsd:attribute name="id" type="xsd:ID"/>
                     <xsd:attribute name="protocol" type="xsd:string" use="required"/>
                     <xsd:attribute name="address" type="xsd:string" use="required"/>
                     <xsd:attribute name="username" type="xsd:string" use="optional"/>
@@ -91,9 +90,9 @@
             <xsd:complexContent>
                 <xsd:extension base="abstractConfig">
                     <xsd:choice minOccurs="0" maxOccurs="unbounded">
-                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded" />
+                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded"/>
                     </xsd:choice>
-                    <xsd:attribute name="id" type="xsd:ID" />
+                    <xsd:attribute name="id" type="xsd:ID"/>
                     <xsd:attribute name="name" type="xsd:string" use="required"/>
                     <xsd:attribute name="port" type="xsd:string" use="required"/>
                     <xsd:attribute name="host" type="xsd:string" use="optional"/>
@@ -117,9 +116,9 @@
             <xsd:complexContent>
                 <xsd:extension base="abstractConfig">
                     <xsd:choice minOccurs="0" maxOccurs="unbounded">
-                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded" />
+                        <xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded"/>
                     </xsd:choice>
-                    <xsd:attribute name="id" type="xsd:ID" />
+                    <xsd:attribute name="id" type="xsd:ID"/>
                     <xsd:attribute name="name" type="xsd:string" use="required"/>
                     <xsd:attribute name="manager" type="xsd:string" use="optional"/>
                     <xsd:attribute name="organization" type="xsd:string" use="optional"/>

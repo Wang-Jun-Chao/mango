@@ -10,17 +10,17 @@ import java.io.OutputStream;
  */
 public class IoUtils {
 
-    public static void closeQuietly(InputStream input){
-        closeQuietly((Closeable)input);
+    public static void closeQuietly(InputStream input) {
+        closeQuietly((Closeable) input);
     }
 
-    public static void closeQuietly(OutputStream output){
-        closeQuietly((Closeable)output);
+    public static void closeQuietly(OutputStream output) {
+        closeQuietly((Closeable) output);
     }
 
     public static void closeQuietly(Closeable closeable) {
         try {
-            if(closeable != null) {
+            if (closeable != null) {
                 closeable.close();
             }
         } catch (IOException e) {
@@ -28,8 +28,8 @@ public class IoUtils {
         }
     }
 
-    public static void closeQuietly(Closeable... closeables){
-        for (Closeable closeable : closeables){
+    public static void closeQuietly(Closeable... closeables) {
+        for (Closeable closeable : closeables) {
             closeQuietly(closeable);
         }
     }
@@ -47,7 +47,7 @@ public class IoUtils {
     public static long copy(InputStream in, OutputStream out, byte[] buff) throws IOException {
         long count = 0;
         int len = -1;
-        while((len=in.read(buff, 0, buff.length))!=-1){
+        while ((len = in.read(buff, 0, buff.length)) != -1) {
             out.write(buff, 0, len);
             count += len;
         }

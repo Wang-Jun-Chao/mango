@@ -33,7 +33,7 @@ public class UserServiceTest {
     public void testGetUsers() {
 
         List<User> users = userService.getUsers(28);
-        System.out.println("users:"+users);
+        System.out.println("users:" + users);
     }
 
 }

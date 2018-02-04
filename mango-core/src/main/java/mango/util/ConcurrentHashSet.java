@@ -2,7 +2,6 @@ package mango.util;
 
 import java.io.Serializable;
 import java.util.AbstractSet;
-import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;

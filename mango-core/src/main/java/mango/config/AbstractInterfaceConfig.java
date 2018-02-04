@@ -55,13 +55,13 @@ public class AbstractInterfaceConfig extends AbstractConfig {
                 map.put(URLParam.protocol.getName(), protocol);
 
                 Integer connectTimeout = URLParam.registryConnectTimeout.getIntValue();
-                if(config.getConnectTimeout()!=null) {
+                if (config.getConnectTimeout() != null) {
                     connectTimeout = config.getConnectTimeout();
                 }
                 map.put(URLParam.registryConnectTimeout.getName(), String.valueOf(connectTimeout));
 
                 Integer sessionTimeout = URLParam.registrySessionTimeout.getIntValue();
-                if(config.getSessionTimeout()!=null) {
+                if (config.getSessionTimeout() != null) {
                     sessionTimeout = config.getSessionTimeout();
                 }
                 map.put(URLParam.registrySessionTimeout.getName(), String.valueOf(sessionTimeout));
@@ -84,7 +84,7 @@ public class AbstractInterfaceConfig extends AbstractConfig {
 
     protected Integer getProtocolPort(ProtocolConfig protocol) {
         Integer port = protocol.getPort();
-        if(port==null || port<1) {
+        if (port == null || port < 1) {
             port = Constants.DEFAULT_PORT;
         }
         return port;
@@ -92,7 +92,7 @@ public class AbstractInterfaceConfig extends AbstractConfig {
 
     protected String getLocalHostAddress() {
         InetAddress address = NetUtils.getLocalAddress();
-        if(address==null || StringUtils.isBlank(address.getHostAddress())){
+        if (address == null || StringUtils.isBlank(address.getHostAddress())) {
             throw new RpcFrameworkException("retrieve local host address failure. Please config <mango:protocol host='...' />");
         }
         return address.getHostAddress();
@@ -168,6 +168,7 @@ public class AbstractInterfaceConfig extends AbstractConfig {
     public void setProtocol(ProtocolConfig protocol) {
         this.protocols = Collections.singletonList(protocol);
     }
+
     public List<RegistryConfig> getRegistries() {
         return registries;
     }

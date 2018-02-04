@@ -5,10 +5,8 @@ package mango.core;
  */
 public abstract class AbstractResponseFuture<T> implements ResponseFuture<T> {
 
-    protected volatile FutureState state = FutureState.NEW; //状态
-
     protected final long createTime = System.currentTimeMillis();//处理开始时间
-
+    protected volatile FutureState state = FutureState.NEW; //状态
     protected long timeoutInMillis;
 
     public AbstractResponseFuture(long timeoutInMillis) {

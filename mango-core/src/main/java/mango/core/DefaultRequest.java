@@ -67,12 +67,12 @@ public class DefaultRequest implements Serializable, Request {
         this.parameterTypes = parameterTypes;
     }
 
-    public void setType(byte type) {
-        this.type = type;
-    }
-
     public byte getType() {
         return type;
+    }
+
+    public void setType(byte type) {
+        this.type = type;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class DefaultRequest implements Serializable, Request {
 
     @Override
     public void setAttachment(String key, String value) {
-        if(attachments==null){
+        if (attachments == null) {
             attachments = new HashMap<>();
         }
         attachments.put(key, value);

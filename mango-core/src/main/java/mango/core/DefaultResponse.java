@@ -21,13 +21,13 @@ public class DefaultResponse implements Serializable, Response {
 
     private long processTime;
 
-    public void setRequestId(Long requestId) {
-        this.requestId = requestId;
-    }
-
     @Override
     public Long getRequestId() {
         return requestId;
+    }
+
+    public void setRequestId(Long requestId) {
+        this.requestId = requestId;
     }
 
     @Override
@@ -39,13 +39,13 @@ public class DefaultResponse implements Serializable, Response {
         this.exception = exception;
     }
 
-    public void setResult(Object result) {
-        this.result = result;
-    }
-
     @Override
     public Object getResult() {
         return result;
+    }
+
+    public void setResult(Object result) {
+        this.result = result;
     }
 
     @Override
@@ -57,13 +57,13 @@ public class DefaultResponse implements Serializable, Response {
         this.attachments.put(key, value);
     }
 
-    public void setAttachments(Map<String, String> attachments) {
-        this.attachments = attachments;
-    }
-
     @Override
     public Map<String, String> getAttachments() {
         return attachments != null ? attachments : Collections.EMPTY_MAP;
+    }
+
+    public void setAttachments(Map<String, String> attachments) {
+        this.attachments = attachments;
     }
 
     @Override
@@ -76,11 +76,11 @@ public class DefaultResponse implements Serializable, Response {
         return attachments.containsKey(key) ? attachments.get(key) : defaultValue;
     }
 
-    public void setProcessTime(long processTime) {
-        this.processTime = processTime;
-    }
-
     public long getProcessTime() {
         return processTime;
+    }
+
+    public void setProcessTime(long processTime) {
+        this.processTime = processTime;
     }
 }

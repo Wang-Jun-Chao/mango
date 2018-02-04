@@ -23,7 +23,8 @@ public abstract class AbstractServer implements NettyServer {
 
     protected volatile ChannelState state = ChannelState.NEW;
 
-    public AbstractServer() {}
+    public AbstractServer() {
+    }
 
     public AbstractServer(URL url) {
         this.url = url;
