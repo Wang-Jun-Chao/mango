@@ -16,5 +16,5 @@ public interface HaStrategy<T> {
      * @param loadBalance
      * @return
      */
-    Response call(Request request, LoadBalance loadBalance);
+    Response call(Request request, LoadBalance<T> loadBalance);
 }

@@ -20,7 +20,7 @@ public class RandomLoadBalance<T> implements LoadBalance<T> {
     }
 
     @Override
-    public Reference select(Request request) {
+    public Reference<T> select(Request request) {
         int idx = (int) (ThreadLocalRandom.current().nextDouble() * references.size());
         return references.get(idx);
     }

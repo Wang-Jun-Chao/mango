@@ -20,7 +20,7 @@ public class FailoverHaStrategy<T> implements HaStrategy<T> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public Response call(Request request, LoadBalance loadBalance) {
+    public Response call(Request request, LoadBalance<T> loadBalance) {
         Reference<T> reference = loadBalance.select(request);
         URL refUrl = reference.getUrl();
         int tryCount = refUrl.getIntParameter(URLParam.retries.getName(), URLParam.retries.getIntValue());

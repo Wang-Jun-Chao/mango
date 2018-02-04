@@ -1,9 +1,6 @@
 package mango.util;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
  */
 public class Constants {
 
@@ -14,7 +11,7 @@ public class Constants {
 
     public static final String ZOOKEEPER_REGISTRY_NAMESPACE = "/mango";
 
-    //头部信息的大小应该是 short+byte+long+int = 2+1+8+4 = 15
+    // 头部信息的大小应该是 short+byte+long+int = 2+1+8+4 = 15
     public static final int HEADER_SIZE = 15;
 
     public static final short NETTY_MAGIC_TYPE = (short) 0x9F9F;

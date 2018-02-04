@@ -13,7 +13,7 @@ import mango.rpc.Reference;
 public class FailfastHaStrategy<T> implements HaStrategy<T> {
 
     @Override
-    public Response call(Request request, LoadBalance loadBalance) {
+    public Response call(Request request, LoadBalance<T> loadBalance) {
         Reference<T> reference = loadBalance.select(request);
         return reference.call(request);
     }
