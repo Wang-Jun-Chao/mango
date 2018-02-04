@@ -77,8 +77,9 @@ public class RpcFuture {
         this.result = result;
         state = STATE_SUCCESS;
 
-        if (rpcFutureListener != null)
+        if (rpcFutureListener != null) {
             rpcFutureListener.onResult(result);
+        }
 
         countDownLatch.countDown();
     }
@@ -87,8 +88,9 @@ public class RpcFuture {
         this.throwable = throwable;
         state = STATE_EXCEPTION;
 
-        if (rpcFutureListener != null)
+        if (rpcFutureListener != null) {
             rpcFutureListener.onException(throwable);
+        }
 
         countDownLatch.countDown();
     }
