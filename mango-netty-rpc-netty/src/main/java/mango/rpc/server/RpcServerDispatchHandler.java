@@ -3,6 +3,7 @@ package mango.rpc.server;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import mango.rpc.context.RpcRequest;
+import mango.rpc.context.RpcRequestWrapper;
 
 /**
  * <pre>

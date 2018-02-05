@@ -3,6 +3,7 @@ package mango.rpc.server;
 import com.esotericsoftware.reflectasm.MethodAccess;
 import io.netty.channel.Channel;
 import mango.rpc.aop.RpcInvokeHook;
+import mango.rpc.context.RpcRequestWrapper;
 import mango.rpc.context.RpcResponse;
 
 import java.util.concurrent.BlockingQueue;
@@ -67,8 +68,9 @@ public class RpcServerRequestHandleRunnable implements Runnable {
                 RpcResponse rpcResponse = new RpcResponse(id, result, true);
                 channel.writeAndFlush(rpcResponse);
 
-                if (rpcInvokeHook != null)
+                if (rpcInvokeHook != null) {
                     rpcInvokeHook.afterInvoke(methodName, args);
+                }
             } catch (Exception e) {
                 Channel channel = rpcRequestWrapper.getChannel();
                 int id = rpcRequestWrapper.getId();

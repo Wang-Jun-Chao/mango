@@ -1,7 +1,6 @@
-package mango.rpc.server;
+package mango.rpc.context;
 
 import io.netty.channel.Channel;
-import mango.rpc.context.RpcRequest;
 
 /**
  * <pre>

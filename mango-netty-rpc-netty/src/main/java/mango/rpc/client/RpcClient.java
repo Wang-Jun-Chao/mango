@@ -6,6 +6,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import mango.rpc.aop.RpcInvokeHook;
+import mango.rpc.context.RpcRequest;
 import mango.rpc.future.RpcFuture;
 import mango.rpc.netty.NettyKryoDecoder;
 import mango.rpc.netty.NettyKryoEncoder;
@@ -143,56 +144,23 @@ public class RpcClient implements InvocationHandler {
     }
 
     public RpcFuture call(String methodName, Object[] args) {
+
         if (rpcInvokeHook != null) {
             rpcInvokeHook.beforeInvoke(methodName, args);
         }
 
-        System.out.print("invoke method = " + methodName + " args =");
-        for (Object argObject : args) {
-            System.out.print(" " + argObject.toString());
-        }
-        System.out.println("");
-
-        // 模拟远程调用
-        // simulation for remote invoke
         RpcFuture rpcFuture = new RpcFuture();
-        TestThread testThread = new TestThread(rpcFuture, methodName, args);
-        testThread.start();
+        int id = invokeIdGenerator.addAndGet(1);
+        rpcClientResponseHandler.register(id, rpcFuture);
+
+        RpcRequest rpcRequest = new RpcRequest(id, methodName, args);
+        if (channel != null) {
+            channel.writeAndFlush(rpcRequest);
+        } else {
+            return null;
+        }
 
         return rpcFuture;
     }
 
-    class TestThread extends Thread {
-        String methodName;
-        Object[] args;
-        RpcFuture rpcFuture;
-
-        public TestThread(RpcFuture rpcFuture, String methodName, Object[] args) {
-            this.rpcFuture = rpcFuture;
-            this.methodName = methodName;
-            this.args = args;
-        }
-
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(2000);
-                int parameterCount = args.length;
-                Method method;
-                if (parameterCount > 0) {
-                    Class<?>[] parameterTypes = new Class[args.length];
-                    for (int i = 0; i < parameterCount; i++) {
-                        parameterTypes[i] = args[i].getClass();
-                    }
-                    method = testInterface.getClass().getMethod(methodName, parameterTypes);
-                } else {
-                    method = testInterface.getClass().getMethod(methodName);
-                }
-
-                rpcFuture.setResult(method.invoke(testInterface, args));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

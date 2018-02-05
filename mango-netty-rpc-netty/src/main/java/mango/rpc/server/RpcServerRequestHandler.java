@@ -1,6 +1,7 @@
 package mango.rpc.server;
 
 import mango.rpc.aop.RpcInvokeHook;
+import mango.rpc.context.RpcRequestWrapper;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ExecutorService;
