@@ -12,7 +12,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.20.Final" level="project" />
-    <orderEntry type="module" module-name="mango-netty-rpc-kryo" />
     <orderEntry type="library" name="Maven: de.javakaffee:kryo-serializers:0.42" level="project" />
     <orderEntry type="library" name="Maven: com.esotericsoftware:kryo:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.esotericsoftware:reflectasm:1.11.3" level="project" />

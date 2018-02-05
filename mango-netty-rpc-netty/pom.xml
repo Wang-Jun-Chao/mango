@@ -10,9 +10,8 @@
 
     <properties>
         <netty.version>4.1.20.Final</netty.version>
-        <mango.netty.rpc.kryo.version>1.0.0</mango.netty.rpc.kryo.version>
+        <keyo.serializers.version>0.42</keyo.serializers.version>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>io.netty</groupId>
@@ -20,10 +19,18 @@
             <version>${netty.version}</version>
         </dependency>
         <dependency>
-            <groupId>mango</groupId>
-            <artifactId>mango-netty-rpc-kryo</artifactId>
-            <version>${mango.netty.rpc.kryo.version}</version>
+            <groupId>de.javakaffee</groupId>
+            <artifactId>kryo-serializers</artifactId>
+            <version>${keyo.serializers.version}</version>
         </dependency>
+    </dependencies>
+
+
+    <!--<dependency>-->
+    <!--<groupId>mango</groupId>-->
+    <!--<artifactId>mango-netty-rpc-kryo</artifactId>-->
+    <!--<version>${mango.netty.rpc.kryo.version}</version>-->
+    <!--</dependency>-->
         <!--<dependency>-->
         <!--<groupId>mango</groupId>-->
         <!--<artifactId>mango-netty-rpc-server</artifactId>-->
@@ -34,5 +41,5 @@
         <!--<artifactId>mango-netty-rpc-client</artifactId>-->
         <!--<version>${mango.netty.rpc.kryo.version}</version>-->
         <!--</dependency>-->
-    </dependencies>
+
 </project>
