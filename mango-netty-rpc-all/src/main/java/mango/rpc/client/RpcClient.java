@@ -1,16 +1,16 @@
 package mango.rpc.client;
 
+import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.PooledByteBufAllocator;
+import io.netty.channel.*;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import mango.rpc.aop.RpcInvokeHook;
 import mango.rpc.context.RpcRequest;
 import mango.rpc.future.RpcFuture;
 import mango.rpc.netty.NettyKryoDecoder;
 import mango.rpc.netty.NettyKryoEncoder;
 import mango.rpc.utils.InfoPrinter;
-import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioSocketChannel;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -54,24 +54,25 @@ public class RpcClient implements InvocationHandler {
     }
 
     public RpcFuture call(String methodName, Object... args) {
-        if (rpcInvokeHook != null)
+        if (rpcInvokeHook != null) {
             rpcInvokeHook.beforeInvoke(methodName, args);
+        }
 
         RpcFuture rpcFuture = new RpcFuture();
         int id = invokeIdGenerator.addAndGet(1);
         rpcClientResponseHandler.register(id, rpcFuture);
 
         RpcRequest rpcRequest = new RpcRequest(id, methodName, args);
-        if (channel != null)
+        if (channel != null) {
             channel.writeAndFlush(rpcRequest);
-        else
+        } else {
             return null;
+        }
 
         return rpcFuture;
     }
 
-    public Object invoke(Object proxy, Method method, Object[] args)
-            throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         RpcFuture rpcFuture = call(method.getName(), args);
         if (rpcFuture == null) {
             InfoPrinter.println("RpcClient is unavailable when disconnect with the server.");
@@ -79,13 +80,15 @@ public class RpcClient implements InvocationHandler {
         }
 
         Object result;
-        if (timeoutMills == 0)
+        if (timeoutMills == 0) {
             result = rpcFuture.get();
-        else
+        } else {
             result = rpcFuture.get(timeoutMills);
+        }
 
-        if (rpcInvokeHook != null)
+        if (rpcInvokeHook != null) {
             rpcInvokeHook.afterInvoke(method.getName(), args);
+        }
 
         return result;
     }

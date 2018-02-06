@@ -3,23 +3,23 @@ package mango.rpc.test;
 import java.util.List;
 
 public interface JUnitTestInterface {
-    public String methodWithoutArg();
+    String methodWithoutArg();
 
-    public String methodWithArgs(String arg1, int arg2);
+    String methodWithArgs(String arg1, int arg2);
 
-    public JUnitTestCustomObject methodWithCustomObject(JUnitTestCustomObject customObject);
+    JUnitTestCustomObject methodWithCustomObject(JUnitTestCustomObject customObject);
 
-    public List<String> methodReturnList(String arg1, String arg2);
+    List<String> methodReturnList(String arg1, String arg2);
 
-    public void methodThrowException();
+    void methodThrowException();
 
-    public void methodTimeOut();
+    void methodTimeOut();
 
-    public void methodReturnVoid();
+    void methodReturnVoid();
 
-    public String methodDelayOneSecond();
+    String methodDelayOneSecond();
 
-    public int methodForMultiThread(int threadId);
+    int methodForMultiThread(int threadId);
 
-    public String methodForPerformance();
+    String methodForPerformance();
 }

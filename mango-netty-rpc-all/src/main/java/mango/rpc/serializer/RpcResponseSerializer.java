@@ -11,10 +11,11 @@ public class RpcResponseSerializer extends Serializer<RpcResponse> {
     public void write(Kryo kryo, Output output, RpcResponse object) {
         output.writeInt(object.getId());
         output.writeBoolean(object.isInvokeSuccess());
-        if (object.isInvokeSuccess())
+        if (object.isInvokeSuccess()) {
             kryo.writeClassAndObject(output, object.getResult());
-        else
+        } else {
             kryo.writeClassAndObject(output, object.getThrowable());
+        }
     }
 
     @Override
@@ -23,8 +24,6 @@ public class RpcResponseSerializer extends Serializer<RpcResponse> {
         boolean isInvokeSuccess = input.readBoolean();
         Object resultOrThrowable = kryo.readClassAndObject(input);
 
-        RpcResponse rpcResponse = new RpcResponse(id, resultOrThrowable, isInvokeSuccess);
-
-        return rpcResponse;
+        return new RpcResponse(id, resultOrThrowable, isInvokeSuccess);
     }
 }

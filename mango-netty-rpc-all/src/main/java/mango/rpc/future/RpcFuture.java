@@ -6,9 +6,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public class RpcFuture {
-    public final static int STATE_AWAIT = 0;
-    public final static int STATE_SUCCESS = 1;
-    public final static int STATE_EXCEPTION = 2;
+    private final static int STATE_AWAIT = 0;
+    private final static int STATE_SUCCESS = 1;
+    private final static int STATE_EXCEPTION = 2;
 
     private CountDownLatch countDownLatch;
     private Object result;
@@ -23,28 +23,28 @@ public class RpcFuture {
 
     public Object get() throws Throwable {
         countDownLatch.await();
-
-        if (state == STATE_SUCCESS)
-            return result;
-        else if (state == STATE_EXCEPTION)
-            throw throwable;
-        else //should not run to here!
-            throw new RuntimeException("RpcFuture Exception!");
+        return getResult0();
     }
 
     public Object get(long timeout) throws Throwable {
         boolean awaitSuccess;
         awaitSuccess = countDownLatch.await(timeout, TimeUnit.MILLISECONDS);
 
-        if (!awaitSuccess)
+        if (!awaitSuccess) {
             throw new RpcTimeoutException();
+        }
+        return getResult0();
+    }
 
-        if (state == STATE_SUCCESS)
+    private Object getResult0() throws Throwable {
+        if (state == STATE_SUCCESS) {
             return result;
-        else if (state == STATE_EXCEPTION)
+        } else if (state == STATE_EXCEPTION) {
             throw throwable;
-        else //should not run to here!
+        } else {
+            //should not run to here!
             throw new RuntimeException("RpcFuture Exception!");
+        }
     }
 
     /**
@@ -53,15 +53,17 @@ public class RpcFuture {
      * @param result
      */
     public synchronized void setResult(Object result) {
-        if (state != STATE_AWAIT)
-            throw new IllegalStateException("can not set result to a RpcFuture instance which has already get result " +
-                    "or throwable!");
+        if (state != STATE_AWAIT) {
+            throw new IllegalStateException("can not set result to a RpcFuture instance " +
+                    "which has already get result or throwable!");
+        }
 
         this.result = result;
         state = STATE_SUCCESS;
 
-        if (rpcFutureListener != null)
+        if (rpcFutureListener != null) {
             rpcFutureListener.onResult(result);
+        }
 
         countDownLatch.countDown();
     }
@@ -72,15 +74,17 @@ public class RpcFuture {
      * @param throwable
      */
     public synchronized void setThrowable(Throwable throwable) {
-        if (state != STATE_AWAIT)
-            throw new IllegalStateException("can not set throwable to a RpcFuture instance which has already get result " +
-                    "or throwable!");
+        if (state != STATE_AWAIT) {
+            throw new IllegalStateException("can not set throwable to a RpcFuture instance " +
+                    "which has already get result or throwable!");
+        }
 
         this.throwable = throwable;
         state = STATE_EXCEPTION;
 
-        if (rpcFutureListener != null)
+        if (rpcFutureListener != null) {
             rpcFutureListener.onException(throwable);
+        }
 
         countDownLatch.countDown();
     }
@@ -90,8 +94,9 @@ public class RpcFuture {
     }
 
     public synchronized void setRpcFutureListener(RpcFutureListener rpcFutureListener) {
-        if (state != STATE_AWAIT)
+        if (state != STATE_AWAIT) {
             throw new RuntimeException("unable to set listener to a RpcFuture which is done.");
+        }
 
         this.rpcFutureListener = rpcFutureListener;
     }

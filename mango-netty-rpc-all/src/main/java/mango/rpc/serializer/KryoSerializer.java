@@ -34,8 +34,9 @@ public class KryoSerializer {
     }
 
     public static Object deserialize(ByteBuf byteBuf) {
-        if (byteBuf == null)
+        if (byteBuf == null) {
             return null;
+        }
 
         Input input = new Input(new ByteBufInputStream(byteBuf));
         Kryo kryo = KryoHolder.get();

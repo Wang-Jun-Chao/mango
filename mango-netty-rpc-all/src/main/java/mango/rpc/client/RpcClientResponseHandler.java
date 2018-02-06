@@ -6,10 +6,10 @@ import mango.rpc.future.RpcFuture;
 import java.util.concurrent.*;
 
 public class RpcClientResponseHandler {
-    private ConcurrentMap<Integer, RpcFuture> invokeIdRpcFutureMap = new ConcurrentHashMap<Integer, RpcFuture>();
+    private ConcurrentMap<Integer, RpcFuture> invokeIdRpcFutureMap = new ConcurrentHashMap<>();
 
     private ExecutorService threadPool;
-    private BlockingQueue<RpcResponse> responseQueue = new LinkedBlockingQueue<RpcResponse>();
+    private BlockingQueue<RpcResponse> responseQueue = new LinkedBlockingQueue<>();
 
     public RpcClientResponseHandler(int threads) {
         threadPool = Executors.newFixedThreadPool(threads);

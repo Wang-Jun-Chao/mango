@@ -29,8 +29,9 @@ public class RpcClientProxyBuilder {
          */
         public ProxyBuilder<T> timeout(long timeoutMills) {
             this.timeoutMills = timeoutMills;
-            if (timeoutMills < 0)
+            if (timeoutMills < 0) {
                 throw new IllegalArgumentException("timeoutMills can not be minus!");
+            }
 
             return this;
         }
@@ -69,8 +70,9 @@ public class RpcClientProxyBuilder {
          */
         @SuppressWarnings("unchecked")
         public T build() {
-            if (threads <= 0)
+            if (threads <= 0) {
                 threads = Runtime.getRuntime().availableProcessors();
+            }
 
             rpcClient = new RpcClient(timeoutMills, rpcInvokeHook, host, port, threads);
             rpcClient.connect();
@@ -83,8 +85,9 @@ public class RpcClientProxyBuilder {
          * return immediately.
          */
         public RpcClientAsyncProxy buildAsyncProxy() {
-            if (threads <= 0)
+            if (threads <= 0) {
                 threads = Runtime.getRuntime().availableProcessors();
+            }
 
             rpcClient = new RpcClient(timeoutMills, rpcInvokeHook, host, port, threads);
             rpcClient.connect();

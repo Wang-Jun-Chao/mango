@@ -11,9 +11,9 @@ public class InfoPrinter {
     /**
      * is allow to printer info
      */
-    public final static boolean ACTIVE = true;
+    private final static boolean ACTIVE = true;
     private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private static BlockingDeque<String> printMissionQueue = new LinkedBlockingDeque<String>();
+    private static BlockingDeque<String> printMissionQueue = new LinkedBlockingDeque<>();
     private static ExecutorService threadPool;
 
     static {
@@ -35,15 +35,17 @@ public class InfoPrinter {
     }
 
     public static void println(String info) {
-        if (!ACTIVE)
+        if (!ACTIVE) {
             return;
+        }
 
         printMissionQueue.add(info);
     }
 
     public static void exit() {
-        if (!ACTIVE)
+        if (!ACTIVE) {
             return;
+        }
 
         threadPool.shutdownNow();
     }

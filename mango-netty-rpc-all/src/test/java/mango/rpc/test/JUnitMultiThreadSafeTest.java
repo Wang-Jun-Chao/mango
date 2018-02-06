@@ -36,9 +36,13 @@ public class JUnitMultiThreadSafeTest {
 
         try {
             if (countDownLatch.await(TIMEOUT, TimeUnit.MILLISECONDS))
+            {
                 return;
+            }
             else
+            {
                 fail("some thread did not finish all the invoke.");
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

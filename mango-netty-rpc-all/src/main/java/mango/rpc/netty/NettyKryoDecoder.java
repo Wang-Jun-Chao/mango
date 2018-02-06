@@ -1,9 +1,9 @@
 package mango.rpc.netty;
 
-import mango.rpc.serializer.KryoSerializer;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import mango.rpc.serializer.KryoSerializer;
 
 public class NettyKryoDecoder extends LengthFieldBasedFrameDecoder {
     public NettyKryoDecoder() {
@@ -13,8 +13,9 @@ public class NettyKryoDecoder extends LengthFieldBasedFrameDecoder {
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
         ByteBuf frame = (ByteBuf) super.decode(ctx, in);
-        if (frame == null)
+        if (frame == null) {
             return null;
+        }
 
         return KryoSerializer.deserialize(frame);
     }

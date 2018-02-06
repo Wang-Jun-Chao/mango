@@ -5,9 +5,7 @@ import com.esotericsoftware.kryo.Kryo;
 public class KryoHolder {
     private static ThreadLocal<Kryo> threadLocalKryo = new ThreadLocal<Kryo>() {
         protected Kryo initialValue() {
-            Kryo kryo = new KryoReflectionFactory();
-
-            return kryo;
+            return new KryoReflectionFactory();
         }
     };
 

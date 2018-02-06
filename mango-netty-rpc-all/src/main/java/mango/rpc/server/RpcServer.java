@@ -20,6 +20,8 @@ public class RpcServer {
     private RpcInvokeHook rpcInvokeHook;
 
     private RpcServerRequestHandler rpcServerRequestHandler;
+    private NioEventLoopGroup bossGroup;
+    private NioEventLoopGroup workerGroup;
 
     protected RpcServer(Class<?> interfaceClass, Object serviceProvider, int port, int threads,
                         RpcInvokeHook rpcInvokeHook) {
@@ -35,8 +37,8 @@ public class RpcServer {
     }
 
     public void start() {
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        bossGroup = new NioEventLoopGroup(1);
+        workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)
@@ -69,7 +71,8 @@ public class RpcServer {
     }
 
     public void stop() {
-        //TODO add stop codes here
+        bossGroup.shutdownGracefully();
+        workerGroup.shutdownGracefully();
         System.out.println("server stop success!");
     }
 }

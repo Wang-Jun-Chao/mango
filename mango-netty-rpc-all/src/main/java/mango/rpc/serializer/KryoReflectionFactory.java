@@ -1,9 +1,9 @@
 package mango.rpc.serializer;
 
 import com.esotericsoftware.kryo.Serializer;
+import de.javakaffee.kryoserializers.*;
 import mango.rpc.context.RpcRequest;
 import mango.rpc.context.RpcResponse;
-import de.javakaffee.kryoserializers.*;
 
 import java.lang.reflect.InvocationHandler;
 import java.net.URI;
@@ -36,24 +36,30 @@ public class KryoReflectionFactory extends KryoReflectionFactorySupport {
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
     public Serializer<?> getDefaultSerializer(Class clazz) {
-        if (EnumSet.class.isAssignableFrom(clazz))
+        if (EnumSet.class.isAssignableFrom(clazz)) {
             return new EnumSetSerializer();
+        }
 
-        if (EnumMap.class.isAssignableFrom(clazz))
+        if (EnumMap.class.isAssignableFrom(clazz)) {
             return new EnumMapSerializer();
+        }
 
-        if (Collection.class.isAssignableFrom(clazz))
+        if (Collection.class.isAssignableFrom(clazz)) {
             return new CopyForIterateCollectionSerializer();
+        }
 
-        if (Map.class.isAssignableFrom(clazz))
+        if (Map.class.isAssignableFrom(clazz)) {
             return new CopyForIterateMapSerializer();
+        }
 
-        if (Date.class.isAssignableFrom(clazz))
+        if (Date.class.isAssignableFrom(clazz)) {
             return new DateSerializer(clazz);
+        }
 
         if (SubListSerializers.ArrayListSubListSerializer.canSerialize(clazz)
-                || SubListSerializers.JavaUtilSubListSerializer.canSerialize(clazz))
+                || SubListSerializers.JavaUtilSubListSerializer.canSerialize(clazz)) {
             return SubListSerializers.createFor(clazz);
+        }
 
         return super.getDefaultSerializer(clazz);
     }

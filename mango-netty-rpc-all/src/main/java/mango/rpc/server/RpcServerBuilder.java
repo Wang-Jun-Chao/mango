@@ -57,12 +57,10 @@ public class RpcServerBuilder {
     }
 
     public RpcServer build() {
-        if (threads <= 0)
+        if (threads <= 0) {
             threads = Runtime.getRuntime().availableProcessors();
+        }
 
-        RpcServer rpcServer = new RpcServer(interfaceClass, serviceProvider, port,
-                threads, rpcInvokeHook);
-
-        return rpcServer;
+        return new RpcServer(interfaceClass, serviceProvider, port, threads, rpcInvokeHook);
     }
 }

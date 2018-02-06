@@ -17,15 +17,13 @@ public class RpcRequestSerializer extends Serializer<RpcRequest> {
 
     @Override
     public RpcRequest read(Kryo kryo, Input input, Class<RpcRequest> type) {
-        RpcRequest rpcRequest;
+
         int id = input.readInt();
         byte methodLength = input.readByte();
         byte[] methodBytes = input.readBytes(methodLength);
         String methodName = new String(methodBytes);
         Object[] args = (Object[]) kryo.readClassAndObject(input);
 
-        rpcRequest = new RpcRequest(id, methodName, args);
-
-        return rpcRequest;
+        return new RpcRequest(id, methodName, args);
     }
 }

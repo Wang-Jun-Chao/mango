@@ -10,10 +10,11 @@ public class RpcResponse {
         this.id = id;
         this.isInvokeSuccess = isInvokeSuccess;
 
-        if (isInvokeSuccess)
+        if (isInvokeSuccess) {
             result = resultOrThrowable;
-        else
+        } else {
             throwable = (Throwable) resultOrThrowable;
+        }
     }
 
     public int getId() {

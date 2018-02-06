@@ -7,6 +7,7 @@ import mango.rpc.exception.RpcMethodNotFoundException;
 import mango.rpc.exception.RpcTimeoutException;
 import mango.rpc.future.RpcFuture;
 import mango.rpc.future.RpcFutureListener;
+import mango.rpc.server.RpcServer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
