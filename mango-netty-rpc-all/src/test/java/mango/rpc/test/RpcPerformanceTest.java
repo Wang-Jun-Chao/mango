@@ -43,8 +43,7 @@ public class RpcPerformanceTest {
         private JUnitTestInterface jUnitTestInterface;
         private CountDownLatch countDownLatch;
 
-        public RpcPerformanceTestThread(JUnitTestInterface jUnitTestInterface,
-                                        CountDownLatch countDownLatch) {
+        public RpcPerformanceTestThread(JUnitTestInterface jUnitTestInterface, CountDownLatch countDownLatch) {
             this.jUnitTestInterface = jUnitTestInterface;
             this.countDownLatch = countDownLatch;
         }
