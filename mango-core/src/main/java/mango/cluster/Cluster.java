@@ -7,9 +7,6 @@ import mango.rpc.Reference;
 
 import java.util.List;
 
-/**
- * @author Ricky Fung
- */
 @SPI(scope = Scope.PROTOTYPE)
 public interface Cluster<T> extends Caller<T> {
 

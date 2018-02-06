@@ -12,9 +12,6 @@ import mango.util.ExceptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * ${DESCRIPTION}
- */
 public class FailoverHaStrategy<T> implements HaStrategy<T> {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 

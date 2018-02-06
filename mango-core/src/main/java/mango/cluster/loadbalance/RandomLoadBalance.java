@@ -7,11 +7,6 @@ import mango.rpc.Reference;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-/**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
- */
 public class RandomLoadBalance<T> implements LoadBalance<T> {
     private volatile List<Reference<T>> references;
 
