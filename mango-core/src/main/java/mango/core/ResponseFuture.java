@@ -1,9 +1,7 @@
 package mango.core;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 异步结果Future
  */
 public interface ResponseFuture<T> {
 

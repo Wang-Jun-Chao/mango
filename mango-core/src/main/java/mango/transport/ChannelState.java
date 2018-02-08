@@ -1,7 +1,7 @@
 package mango.transport;
 
 /**
- * @author Ricky Fung
+ * 通道状态
  */
 public enum ChannelState {
 

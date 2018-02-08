@@ -20,38 +20,56 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * Netty客户端实现
  */
 public class NettyClientImpl extends AbstractClient {
 
-    private final ConcurrentHashMap<Long, ResponseFuture> responseFutureMap =
-            new ConcurrentHashMap<>(256);
+    /**
+     * 记录异步调用的结果包装对象
+     */
+    private final ConcurrentMap<Long, ResponseFuture> responseFutureMap = new ConcurrentHashMap<>(256);
+    /**
+     * 客户端NIO线程组
+     */
     private EventLoopGroup group = new NioEventLoopGroup();
-    private Bootstrap b = new Bootstrap();
+    /**
+     * 客户端启动类
+     */
+    private Bootstrap bootstrap = new Bootstrap();
+    /**
+     * 定时任务，用于处理超时的请求
+     */
     private ScheduledExecutorService scheduledExecutorService;
+    /**
+     * 超时时间
+     */
     private int timeout;
 
+    /**
+     * 是否初始化的标记
+     */
     private volatile boolean initializing;
 
+    /**
+     * 通道包装类
+     */
     private volatile ChannelWrapper channelWrapper;
 
     public NettyClientImpl(URL url) {
         super(url);
-
+        // 获取远程主机地址
         this.remoteAddress = new InetSocketAddress(url.getHost(), url.getPort());
+        // 获取超时时间
         this.timeout = url.getIntParameter(URLParam.requestTimeout.getName(), URLParam.requestTimeout.getIntValue());
 
+        // 创建定时任务线程池
         this.scheduledExecutorService = Executors.newScheduledThreadPool(5,
                 new DefaultThreadFactory(String.format("%s-%s", Constants.FRAMEWORK_NAME, "future")));
 
+        // 设置定时任务
         this.scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
@@ -60,6 +78,11 @@ public class NettyClientImpl extends AbstractClient {
         }, 0, 5000, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * 打开客户端连接
+     *
+     * @return
+     */
     @Override
     public synchronized boolean open() {
 
@@ -67,8 +90,11 @@ public class NettyClientImpl extends AbstractClient {
             logger.warn("NettyClient is initializing: url=" + url);
             return true;
         }
+
+        // 标记已经初始化，防止并发调用过程重复初始化
         initializing = true;
 
+        // 通道已经可用了，说明是已经初始化好了，可以直接使用了
         if (state.isAvailable()) {
             logger.warn("NettyClient has initialized: url=" + url);
             return true;
@@ -78,29 +104,35 @@ public class NettyClientImpl extends AbstractClient {
         final int maxContentLength = url.getIntParameter(URLParam.maxContentLength.getName(),
                 URLParam.maxContentLength.getIntValue());
 
-        b.group(group).channel(NioSocketChannel.class)
+        bootstrap.group(group).channel(NioSocketChannel.class)
+                // 采用延迟发送
                 .option(ChannelOption.TCP_NODELAY, true)
+                // 采用TPC长连接
                 .option(ChannelOption.SO_KEEPALIVE, true)
+                // 设置接收到发送缓冲区的大小
                 .option(ChannelOption.SO_RCVBUF, url.getIntParameter(URLParam.bufferSize.getName(), URLParam.bufferSize.getIntValue()))
                 .option(ChannelOption.SO_SNDBUF, url.getIntParameter(URLParam.bufferSize.getName(), URLParam.bufferSize.getIntValue()))
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
-                    public void initChannel(SocketChannel ch)
-                            throws Exception {
-                        ch.pipeline().addLast(new NettyDecoder(codec, url, maxContentLength, Constants.HEADER_SIZE, 4), //
+                    public void initChannel(SocketChannel ch) throws Exception {
+                        ch.pipeline().addLast(
+                                new NettyDecoder(codec, url, maxContentLength, Constants.HEADER_SIZE, 4), //
                                 new NettyEncoder(codec, url), //
                                 new NettyClientHandler());
                     }
                 });
 
         try {
-            ChannelFuture channelFuture = b.connect(this.remoteAddress).sync();
+            // 发起异步连楼操作
+            ChannelFuture channelFuture = bootstrap.connect(this.remoteAddress).sync();
+            // 包装通道
             this.channelWrapper = new ChannelWrapper(channelFuture);
         } catch (InterruptedException e) {
             logger.error(String.format("NettyClient connect to address:%s failure", this.remoteAddress), e);
             throw new RpcFrameworkException(String.format("NettyClient connect to address:%s failure"), e);
         }
 
+        // 更新通道状态，到这一步通道才真的是可用的
         state = ChannelState.AVAILABLE;
         return true;
     }
@@ -120,6 +152,14 @@ public class NettyClientImpl extends AbstractClient {
         return url;
     }
 
+    /**
+     * 同步调用，直接到RPC方法结果返回否则一直阻塞
+     *
+     * @param request
+     * @return
+     * @throws InterruptedException
+     * @throws TransportException
+     */
     @Override
     public Response invokeSync(final Request request) throws InterruptedException, TransportException {
         Channel channel = getChannel();
@@ -196,6 +236,12 @@ public class NettyClientImpl extends AbstractClient {
         close(0);
     }
 
+    /**
+     * 关闭客户端连接，如果已经关闭就直接返回，没有关闭就开始关闭线程池
+     * 关闭客户端NIO线程组，设置客户端状态为已经关闭
+     *
+     * @param timeout
+     */
     @Override
     public synchronized void close(int timeout) {
 
@@ -215,6 +261,12 @@ public class NettyClientImpl extends AbstractClient {
 
     }
 
+    /**
+     * 获取通道对象，如果不存在通道或者通道不可用，就重新创建新的通道，并且返回
+     *
+     * @return
+     * @throws InterruptedException
+     */
     private Channel getChannel() throws InterruptedException {
 
         if (this.channelWrapper != null && this.channelWrapper.isActive()) {
@@ -223,7 +275,7 @@ public class NettyClientImpl extends AbstractClient {
 
         synchronized (this) {
             // 发起异步连接操作
-            ChannelFuture channelFuture = b.connect(this.remoteAddress).sync();
+            ChannelFuture channelFuture = bootstrap.connect(this.remoteAddress).sync();
             this.channelWrapper = new ChannelWrapper(channelFuture);
         }
 
