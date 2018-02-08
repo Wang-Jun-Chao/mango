@@ -9,20 +9,34 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 抽象注册中心
+ * 抽象注册类
  *
  * @author Ricky Fung
  */
 public abstract class AbstractRegistry implements Registry {
 
+    /**
+     * 记录已经注册的服务
+     */
     protected Set<URL> registeredServiceUrls = new ConcurrentHashSet<URL>();
 
+    /**
+     * TODO ?
+     */
     private URL registryUrl;
 
+    /**
+     * 创建抽象注册对象
+     */
     public AbstractRegistry(URL url) {
         this.registryUrl = url.clone0();
     }
 
+    /**
+     * 添加注册的URL
+     * @param url
+     * @throws Exception
+     */
     @Override
     public void register(URL url) throws Exception {
         Preconditions.checkNotNull(url);
@@ -63,7 +77,7 @@ public abstract class AbstractRegistry implements Registry {
     public List<URL> discover(URL url) throws Exception {
         Preconditions.checkNotNull(url);
 
-        List<URL> results = new ArrayList<URL>();
+        List<URL> results = new ArrayList<>();
         List<URL> urlsDiscovered = doDiscover(url);
         if (urlsDiscovered != null) {
             for (URL u : urlsDiscovered) {
@@ -78,6 +92,10 @@ public abstract class AbstractRegistry implements Registry {
         return registryUrl;
     }
 
+    /**
+     * 进行注册
+     * @param url
+     */
     protected abstract void doRegister(URL url);
 
     protected abstract void doUnregister(URL url);

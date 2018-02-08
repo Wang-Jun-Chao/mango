@@ -238,7 +238,7 @@ public class URL {
     }
 
     public URL clone0() {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         if (this.parameters != null) {
             params.putAll(this.parameters);
         }

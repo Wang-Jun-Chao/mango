@@ -5,12 +5,24 @@ import mango.common.URL;
 import java.util.List;
 
 /**
- * @author Ricky Fung
+ * 发现服务
  */
 public interface DiscoveryService {
 
+    /**
+     * 订阅服务
+     *
+     * @param url
+     * @param listener
+     */
     void subscribe(URL url, NotifyListener listener);
 
+    /**
+     * 取消订阅服务
+     *
+     * @param url
+     * @param listener
+     */
     void unsubscribe(URL url, NotifyListener listener);
 
     /**

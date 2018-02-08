@@ -3,19 +3,19 @@ package mango.registry;
 import mango.common.URL;
 
 /**
- * @author Ricky Fung
+ * 注册服务
  */
 public interface RegistryService {
 
     /**
-     * register service to registry
+     * 注册服务
      *
      * @param url
      */
     void register(URL url) throws Exception;
 
     /**
-     * unregister service to registry
+     * 注销服务
      *
      * @param url
      */

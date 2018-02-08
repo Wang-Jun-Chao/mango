@@ -13,9 +13,18 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public abstract class AbstractRegistryFactory implements RegistryFactory {
 
-    private final ConcurrentHashMap<String, Registry> registries = new ConcurrentHashMap<String, Registry>();
+    /**
+     * 获取注册的URL
+     */
+    private final ConcurrentHashMap<String, Registry> registries = new ConcurrentHashMap<>();
     private final ReentrantLock lock = new ReentrantLock();
 
+    /**
+     * 获取注册对象，如果没有就创建注册对象，并且记录注册对象然后返回，否则就直接返回记录的注册对象
+     *
+     * @param url
+     * @return
+     */
     @Override
     public Registry getRegistry(URL url) {
         String registryUri = getRegistryUri(url);
@@ -39,8 +48,7 @@ public abstract class AbstractRegistryFactory implements RegistryFactory {
     }
 
     protected String getRegistryUri(URL url) {
-        String registryUri = url.getUri();
-        return registryUri;
+        return url.getUri();
     }
 
     protected abstract Registry createRegistry(URL url);
