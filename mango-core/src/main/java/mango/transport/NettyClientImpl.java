@@ -116,6 +116,7 @@ public class NettyClientImpl extends AbstractClient {
                     @Override
                     public void initChannel(SocketChannel ch) throws Exception {
                         ch.pipeline().addLast(
+                                // 接收的内容会层层传递NettyDecoder -> NettyEncoder -> NettyClientHandler
                                 new NettyDecoder(codec, url, maxContentLength, Constants.HEADER_SIZE, 4), //
                                 new NettyEncoder(codec, url), //
                                 new NettyClientHandler());
@@ -162,15 +163,23 @@ public class NettyClientImpl extends AbstractClient {
      */
     @Override
     public Response invokeSync(final Request request) throws InterruptedException, TransportException {
+        return (Response) invokeAsync(request).get();
+    }
+
+    @Override
+    public ResponseFuture invokeAsync(final Request request) throws InterruptedException, TransportException {
         Channel channel = getChannel();
         if (channel != null && channel.isActive()) {
+            // 创建一个RPC结果响应包装对象
             final ResponseFuture<Response> rpcFuture = new DefaultResponseFuture<>(timeout);
+            // 将包装对象放入Map中，用于后后续处理
             this.responseFutureMap.put(request.getRequestId(), rpcFuture);
-            //写数据
+            // 写数据
             channel.writeAndFlush(request).addListener(new ChannelFutureListener() {
                 @Override
                 public void operationComplete(ChannelFuture future) throws Exception {
-
+                    // 数据写后记录成功能或者失败，如果失败就从结果记录中删除本次的写入记录，
+                    // 并且在返回的结果中记录写入通道失败的原因
                     if (future.isSuccess()) {
                         logger.info("send success, request id:{}", request.getRequestId());
 
@@ -181,35 +190,19 @@ public class NettyClientImpl extends AbstractClient {
                     }
                 }
             });
-            return rpcFuture.get();
-        } else {
-            throw new TransportException("channel not active. request id:" + request.getRequestId());
-        }
-    }
-
-    @Override
-    public ResponseFuture invokeAsync(final Request request) throws InterruptedException, TransportException {
-        Channel channel = getChannel();
-        if (channel != null && channel.isActive()) {
-
-            final ResponseFuture<Response> rpcFuture = new DefaultResponseFuture<>(timeout);
-            this.responseFutureMap.put(request.getRequestId(), rpcFuture);
-            //写数据
-            channel.writeAndFlush(request).addListener(new ChannelFutureListener() {
-                @Override
-                public void operationComplete(ChannelFuture future) throws Exception {
-
-                    if (future.isSuccess()) {
-                        logger.info("send success, request id:{}", request.getRequestId());
-                    }
-                }
-            });
             return rpcFuture;
         } else {
             throw new TransportException("channel not active. request id:" + request.getRequestId());
         }
     }
 
+    /**
+     * 单向调用，只测试是否可以用客户端发起请求，不用管结果返回结果
+     *
+     * @param request
+     * @throws InterruptedException
+     * @throws TransportException
+     */
     @Override
     public void invokeOneway(final Request request) throws InterruptedException, TransportException {
         Channel channel = getChannel();
@@ -296,7 +289,8 @@ public class NettyClientImpl extends AbstractClient {
             Map.Entry<Long, ResponseFuture> next = it.next();
             ResponseFuture future = next.getValue();
 
-            if (future.isTimeout()) {  //超时
+            // 清理超时对象
+            if (future.isTimeout()) {
                 it.remove();
                 timeoutFutureList.add(future);
             }
@@ -311,9 +305,8 @@ public class NettyClientImpl extends AbstractClient {
         private Logger logger = LoggerFactory.getLogger(getClass());
 
         @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg)
-                throws Exception {
-
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            // 如果从服务器返回了结果，那就将结果从放入对应的包装类中，并且从记录Map中删除
             logger.info("client read msg:{}, ", msg);
             if (msg instanceof Response) {
                 DefaultResponse response = (DefaultResponse) msg;
@@ -328,8 +321,7 @@ public class NettyClientImpl extends AbstractClient {
         }
 
         @Override
-        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
-                throws Exception {
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
             logger.error("client caught exception", cause);
             ctx.close();
         }
