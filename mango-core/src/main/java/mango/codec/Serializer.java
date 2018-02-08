@@ -6,9 +6,7 @@ import mango.core.extension.Scope;
 import java.io.IOException;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 序列化器
  */
 @SPI(value = "protostuff", scope = Scope.SINGLETON)
 public interface Serializer {

@@ -10,9 +10,12 @@ import mango.exception.RpcFrameworkException;
 import java.lang.reflect.Method;
 
 /**
- * @author Ricky Fung
+ * 默认提供者类
  */
 public class DefaultProvider<T> extends AbstractProvider<T> {
+    /**
+     * 代理接口的具体实现
+     */
     protected T proxyImpl;
 
     public DefaultProvider(T proxyImpl, URL url, Class<T> clz) {
@@ -20,17 +23,29 @@ public class DefaultProvider<T> extends AbstractProvider<T> {
         this.proxyImpl = proxyImpl;
     }
 
+    /**
+     * 获取所代理的接口
+     *
+     * @return
+     */
     @Override
     public Class<T> getInterface() {
         return clz;
     }
 
+    /**
+     * 根据请求调用实现类的方法
+     *
+     * @param request
+     * @return
+     */
     @Override
     public Response invoke(Request request) {
 
         DefaultResponse response = new DefaultResponse();
         response.setRequestId(request.getRequestId());
 
+        // 查询代理的方法
         Method method = lookup(request);
         if (method == null) {
             RpcFrameworkException exception =
@@ -40,6 +55,7 @@ public class DefaultProvider<T> extends AbstractProvider<T> {
             return response;
         }
         try {
+            // 执行方法调用并且返回结果，如果有异常抛出就将异常封装到响应中并且返回
             method.setAccessible(true);
             Object result = method.invoke(proxyImpl, request.getArguments());
             response.setResult(result);

@@ -9,9 +9,7 @@ import mango.util.Constants;
 import java.util.List;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 配置处理器
  */
 @SPI(Constants.DEFAULT_VALUE)
 public interface ConfigHandler {
@@ -40,6 +38,13 @@ public interface ConfigHandler {
      */
     <T> Exporter<T> export(Class<T> interfaceClass, T ref, URL serviceUrl, List<URL> registryUrls);
 
+    /**
+     * 取消已经暴露的服务
+     *
+     * @param exporters
+     * @param registryUrls
+     * @param <T>
+     */
     <T> void unexport(List<Exporter<T>> exporters, ArrayListMultimap<URL, URL> registryUrls);
 
 }

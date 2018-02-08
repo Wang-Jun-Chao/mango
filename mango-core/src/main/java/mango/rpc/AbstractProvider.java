@@ -7,11 +7,20 @@ import mango.core.Response;
 import java.lang.reflect.Method;
 
 /**
- * @author Ricky Fung
+ * 抽象提供者
  */
 public abstract class AbstractProvider<T> implements Provider<T> {
+    /**
+     * 提供服务的接口
+     */
     protected Class<T> clz;
+    /**
+     * 服务提供者提供服务对应的URL
+     */
     protected URL url;
+    /**
+     * 服务是否可用
+     */
     protected boolean available = false;
 
     public AbstractProvider(URL url, Class<T> clz) {
@@ -58,6 +67,12 @@ public abstract class AbstractProvider<T> implements Provider<T> {
 
     protected abstract Response invoke(Request request);
 
+    /**
+     * 获取所请求有方法对象
+     *
+     * @param request
+     * @return
+     */
     protected Method lookup(Request request) {
         try {
             return clz.getMethod(request.getMethodName(), request.getParameterTypes());

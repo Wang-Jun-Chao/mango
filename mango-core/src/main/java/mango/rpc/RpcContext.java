@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Ricky Fung
+ * RPC上下文对象
  */
 public class RpcContext {
     private static final ThreadLocal<RpcContext> localContext = new ThreadLocal<RpcContext>() {
@@ -15,6 +15,10 @@ public class RpcContext {
             return new RpcContext();
         }
     };
+
+    /**
+     * 用于记录RPC上下文附加属性
+     */
     private Map<Object, Object> attribute = new HashMap<>();
     private Request request;
     private Response response;
@@ -24,6 +28,12 @@ public class RpcContext {
         return localContext.get();
     }
 
+    /**
+     * 创建RPC上下文对象，并且将对象放入到
+     *
+     * @param request
+     * @return
+     */
     public static RpcContext init(Request request) {
         RpcContext context = new RpcContext();
         if (request != null) {

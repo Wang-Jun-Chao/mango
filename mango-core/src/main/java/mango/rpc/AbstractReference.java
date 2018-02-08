@@ -8,11 +8,20 @@ import mango.exception.RpcFrameworkException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author Ricky Fung
+ * 抽象引用对象
  */
 public abstract class AbstractReference<T> implements Reference<T> {
+    /**
+     * 引用对应的接口类类型
+     */
     protected Class<T> clz;
+    /**
+     * 服务的URL
+     */
     protected URL serviceUrl;
+    /**
+     * 调用计数器
+     */
     protected AtomicInteger activeCounter = new AtomicInteger(0);
     private URL url;
 
@@ -37,21 +46,30 @@ public abstract class AbstractReference<T> implements Reference<T> {
         return clz;
     }
 
+    /**
+     * 根据请求调用方法
+     *
+     * @param request
+     * @return
+     */
     @Override
     public Response call(Request request) {
         if (!isAvailable()) {
             throw new RpcFrameworkException(this.getClass().getName() + " call Error: node is not available, url=" + url.getUri());
         }
 
+        // 调用计数增加
         incrActiveCount(request);
         Response response = null;
         try {
+            // 方法调用
             response = doCall(request);
-            return response;
         } finally {
+            // 减少调用计数
             decrActiveCount(request, response);
         }
 
+        return response;
     }
 
     @Override
