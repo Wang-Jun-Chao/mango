@@ -5,12 +5,16 @@ import mango.core.extension.SPI;
 import mango.core.extension.Scope;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 注册工厂
  */
 @SPI(scope = Scope.SINGLETON)
 public interface RegistryFactory {
 
+    /**
+     * 通过URL对象获取注册对象
+     *
+     * @param url
+     * @return
+     */
     Registry getRegistry(URL url);
 }

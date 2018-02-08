@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * ${DESCRIPTION}
+ * 抽象注册中心
  *
  * @author Ricky Fung
  */
