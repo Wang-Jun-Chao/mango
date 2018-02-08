@@ -5,7 +5,7 @@ import mango.codec.Serializer;
 import java.io.IOException;
 
 /**
- * @author Ricky Fung
+ * 默认序列化器，提供空实现
  */
 public class DefaultSerializer implements Serializer {
 
