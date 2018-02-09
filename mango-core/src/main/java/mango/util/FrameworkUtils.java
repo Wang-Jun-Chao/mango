@@ -7,9 +7,7 @@ import mango.config.RegistryConfig;
 import mango.core.Request;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 框架工具类
  */
 public class FrameworkUtils {
 
@@ -24,6 +22,11 @@ public class FrameworkUtils {
         return local;
     }
 
+    /**
+     * 默认协议配置
+     *
+     * @return
+     */
     public static ProtocolConfig getDefaultProtocolConfig() {
         ProtocolConfig pc = new ProtocolConfig();
         pc.setId(Constants.FRAMEWORK_NAME);
@@ -33,20 +36,40 @@ public class FrameworkUtils {
     }
 
     /**
+     * 获取协议键
      * protocol key: protocol://host:port/group/interface/version
      *
      * @param url
      * @return
      */
     public static String getProtocolKey(URL url) {
-        return url.getProtocol() + Constants.PROTOCOL_SEPARATOR + url.getServerAndPort() + Constants.PATH_SEPARATOR
-                + url.getGroup() + Constants.PATH_SEPARATOR + url.getPath() + Constants.PATH_SEPARATOR + url.getVersion();
+        return url.getProtocol()
+                + Constants.PROTOCOL_SEPARATOR
+                + url.getServerAndPort()
+                + Constants.PATH_SEPARATOR
+                + url.getGroup()
+                + Constants.PATH_SEPARATOR
+                + url.getPath()
+                + Constants.PATH_SEPARATOR
+                + url.getVersion();
     }
 
+    /**
+     * 获取服务键
+     *
+     * @param url
+     * @return
+     */
     public static String getServiceKey(URL url) {
         return getServiceKey(url.getGroup(), url.getPath(), url.getVersion());
     }
 
+    /**
+     * 获取服务键
+     *
+     * @param request
+     * @return
+     */
     public static String getServiceKey(Request request) {
         String version = getValueFromRequest(request, URLParam.version.name(), URLParam.version.getValue());
         String group = getValueFromRequest(request, URLParam.group.name(), URLParam.group.getValue());
@@ -54,6 +77,14 @@ public class FrameworkUtils {
         return getServiceKey(group, request.getInterfaceName(), version);
     }
 
+    /**
+     * 获取请求的值
+     *
+     * @param request
+     * @param key
+     * @param defaultValue
+     * @return
+     */
     public static String getValueFromRequest(Request request, String key, String defaultValue) {
         String value = defaultValue;
         if (request.getAttachments() != null && request.getAttachments().containsKey(key)) {
@@ -63,6 +94,7 @@ public class FrameworkUtils {
     }
 
     /**
+     * 获取服务键
      * serviceKey: group/interface/version
      *
      * @param group
@@ -71,6 +103,10 @@ public class FrameworkUtils {
      * @return
      */
     private static String getServiceKey(String group, String interfaceName, String version) {
-        return group + Constants.PATH_SEPARATOR + interfaceName + Constants.PATH_SEPARATOR + version;
+        return group
+                + Constants.PATH_SEPARATOR
+                + interfaceName
+                + Constants.PATH_SEPARATOR
+                + version;
     }
 }
