@@ -124,7 +124,7 @@ public class ClassUtils {
     }
 
     /**
-     * get class loader
+     * 获取类的类加载器，优先获取当前线程的类加载器，然后获取类的类加载器
      *
      * @param cls
      * @return class loader
