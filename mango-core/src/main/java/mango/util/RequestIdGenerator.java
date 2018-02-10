@@ -3,9 +3,7 @@ package mango.util;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 请求ID生成器
  */
 public class RequestIdGenerator {
     private static final AtomicLong idGenerator = new AtomicLong(1);
