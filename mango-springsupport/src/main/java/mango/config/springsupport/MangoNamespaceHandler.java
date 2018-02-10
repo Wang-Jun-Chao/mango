@@ -9,16 +9,14 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 import java.util.Set;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * Mango命明空间处理器
  */
 public class MangoNamespaceHandler extends NamespaceHandlerSupport {
-    public final static Set<String> protocolDefineNames = new ConcurrentHashSet<String>();
-    public final static Set<String> registryDefineNames = new ConcurrentHashSet<String>();
-    public final static Set<String> serviceConfigDefineNames = new ConcurrentHashSet<String>();
-    public final static Set<String> referenceConfigDefineNames = new ConcurrentHashSet<String>();
-    public final static Set<String> applicationConfigDefineNames = new ConcurrentHashSet<String>();
+    public final static Set<String> protocolDefineNames = new ConcurrentHashSet<>();
+    public final static Set<String> registryDefineNames = new ConcurrentHashSet<>();
+    public final static Set<String> serviceConfigDefineNames = new ConcurrentHashSet<>();
+    public final static Set<String> referenceConfigDefineNames = new ConcurrentHashSet<>();
+    public final static Set<String> applicationConfigDefineNames = new ConcurrentHashSet<>();
 
     @Override
     public void init() {
