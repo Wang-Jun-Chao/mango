@@ -1,12 +1,16 @@
 package mango.registry.zookeeper;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * Zookeeper结点类型
  */
 public enum ZkNodeType {
+    /**
+     * 服务端
+     */
     SERVER("providers"),
+    /**
+     * 客户端
+     */
     CLIENT("consumers");
 
     private String value;
