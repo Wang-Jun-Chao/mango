@@ -7,9 +7,7 @@ import mango.util.StringUtils;
 import java.io.IOException;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * Fastjson序列化器
  */
 public class FastjsonSerializer implements Serializer {
 

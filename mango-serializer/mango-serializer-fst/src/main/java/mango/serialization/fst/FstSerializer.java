@@ -11,8 +11,6 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * https://github.com/RuedigerMoeller/fast-serialization/wiki/Serialization
- *
- * @author Ricky Fung
  */
 public class FstSerializer implements Serializer {
 

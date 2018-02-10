@@ -11,9 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
- * ${DESCRIPTION}
  *
- * @author Ricky Fung
  */
 public class KryoSerializer implements Serializer {
 
@@ -22,7 +20,9 @@ public class KryoSerializer implements Serializer {
         protected Kryo initialValue() {
 
             Kryo kryo = new Kryo();
-            kryo.setInstantiatorStrategy(new Kryo.DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
+            kryo.setInstantiatorStrategy(
+                    new Kryo.DefaultInstantiatorStrategy(
+                            new StdInstantiatorStrategy()));
             return kryo;
         }
     };
@@ -31,7 +31,6 @@ public class KryoSerializer implements Serializer {
     public byte[] serialize(Object msg) throws IOException {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
              Output output = new Output(bos)) {
-
             Kryo kryo = THREAD_LOCAL.get();
             kryo.writeObject(output, msg);
             return output.toBytes();
@@ -43,7 +42,6 @@ public class KryoSerializer implements Serializer {
 
         try (ByteArrayInputStream bis = new ByteArrayInputStream(buf);
              Input input = new Input(bis)) {
-
             Kryo kryo = THREAD_LOCAL.get();
             return kryo.readObject(input, type);
         }
