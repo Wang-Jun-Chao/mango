@@ -38,13 +38,19 @@ public class StringUtils {
         return !isEmpty(str);
     }
 
+    /**
+     * 判断是否是空字符串
+     *
+     * @param cs
+     * @return
+     */
     public static boolean isBlank(final CharSequence cs) {
         int strLen;
         if (cs == null || (strLen = cs.length()) == 0) {
             return true;
         }
         for (int i = 0; i < strLen; i++) {
-            if (Character.isWhitespace(cs.charAt(i)) == false) {
+            if (!Character.isWhitespace(cs.charAt(i))) {
                 return false;
             }
         }
@@ -63,6 +69,13 @@ public class StringUtils {
         return str1 == null ? str2 == null : str1.equalsIgnoreCase(str2);
     }
 
+    /**
+     * 判断数组中是否包含指定字符串
+     *
+     * @param arr
+     * @param searchStr
+     * @return
+     */
     public static boolean contains(String[] arr, String searchStr) {
         if (arr == null || searchStr == null) {
             return false;
@@ -76,6 +89,7 @@ public class StringUtils {
     }
 
     /**
+     * 将字符串的第一个字符转成大写
      * StringUtils.capitalize(null)  = null
      * StringUtils.capitalize("")    = ""
      * StringUtils.capitalize("cat") = "Cat"
