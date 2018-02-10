@@ -16,9 +16,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 服务配置Bean
  */
 public class ServiceConfigBean<T> extends ServiceConfig<T> implements BeanFactoryAware,
         InitializingBean,
@@ -55,8 +53,13 @@ public class ServiceConfigBean<T> extends ServiceConfig<T> implements BeanFactor
         super.destroy0();
     }
 
+    /**
+     * 检测注册配置
+     */
     private void checkRegistryConfig() {
+
         if (CollectionUtil.isEmpty(getRegistries())) {
+            // 对每个注册的配置进行处理
             for (String name : MangoNamespaceHandler.registryDefineNames) {
                 RegistryConfig rc = beanFactory.getBean(name, RegistryConfig.class);
                 if (rc == null) {
@@ -64,7 +67,7 @@ public class ServiceConfigBean<T> extends ServiceConfig<T> implements BeanFactor
                 }
                 if (MangoNamespaceHandler.registryDefineNames.size() == 1) {
                     setRegistry(rc);
-                } else if (rc.isDefault() != null && rc.isDefault().booleanValue()) {
+                } else if (rc.isDefault() != null && rc.isDefault()) {
                     setRegistry(rc);
                 }
             }
@@ -83,7 +86,7 @@ public class ServiceConfigBean<T> extends ServiceConfig<T> implements BeanFactor
                 }
                 if (MangoNamespaceHandler.protocolDefineNames.size() == 1) {
                     setProtocol(pc);
-                } else if (pc.isDefault() != null && pc.isDefault().booleanValue()) {
+                } else if (pc.isDefault() != null && pc.isDefault()) {
                     setProtocol(pc);
                 }
             }

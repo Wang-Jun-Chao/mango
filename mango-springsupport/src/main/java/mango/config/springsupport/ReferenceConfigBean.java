@@ -13,16 +13,16 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.*;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 引用配置Bean
  */
 public class ReferenceConfigBean<T> extends ReferenceConfig<T> implements
-        FactoryBean<T>, BeanFactoryAware,
-        InitializingBean, DisposableBean {
+        FactoryBean<T>, BeanFactoryAware, InitializingBean, DisposableBean {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    /**
+     * Bean工厂
+     */
     private transient BeanFactory beanFactory;
 
     @Override
@@ -40,6 +40,11 @@ public class ReferenceConfigBean<T> extends ReferenceConfig<T> implements
         return getInterfaceClass();
     }
 
+    /**
+     * 判断是否是单例
+     *
+     * @return
+     */
     @Override
     public boolean isSingleton() {
         return true;
@@ -81,13 +86,15 @@ public class ReferenceConfigBean<T> extends ReferenceConfig<T> implements
                 if (rc == null) {
                     continue;
                 }
+                // TODO
                 if (MangoNamespaceHandler.registryDefineNames.size() == 1) {
                     setRegistry(rc);
-                } else if (rc.isDefault() != null && rc.isDefault().booleanValue()) {
+                } else if (rc.isDefault() != null && rc.isDefault()) {
                     setRegistry(rc);
                 }
             }
         }
+        // 如果没有获取到注册对象，就使用默认的注册配置
         if (CollectionUtil.isEmpty(getRegistries())) {
             setRegistry(FrameworkUtils.getDefaultRegistryConfig());
         }
@@ -100,13 +107,16 @@ public class ReferenceConfigBean<T> extends ReferenceConfig<T> implements
                 if (pc == null) {
                     continue;
                 }
+                // TODO
                 if (MangoNamespaceHandler.protocolDefineNames.size() == 1) {
                     setProtocol(pc);
-                } else if (pc.isDefault() != null && pc.isDefault().booleanValue()) {
+                } else if (pc.isDefault() != null && pc.isDefault()) {
                     setProtocol(pc);
                 }
             }
         }
+
+        // 如果没有获取到注册对象，就使用默认的协议配置
         if (CollectionUtil.isEmpty(getProtocols())) {
             setProtocol(FrameworkUtils.getDefaultProtocolConfig());
         }

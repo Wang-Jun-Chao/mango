@@ -30,7 +30,7 @@ public class AbstractInterfaceConfig extends AbstractConfig {
 
     //server暴露服务使用的协议，暴露可以使用多种协议，但client只能用一种协议进行访问，原因是便于client的管理
     protected List<ProtocolConfig> protocols;
-    // 注册中心的配置列表
+    // 注册配置列表
     protected List<RegistryConfig> registries;
 
     // 是否进行check，如果为true，则在监测失败后抛异常
