@@ -8,16 +8,30 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
+ * 反射工具
  */
 public class ReflectUtils {
 
+    /**
+     * setter方法前缀
+     */
     private static final String SETTER_PREFIX = "set";
+    /**
+     * getter方法前缀
+     */
     private static final String GETTER_PREFIX = "get";
+    /**
+     * is方法前缀
+     */
     private static final String IS_PREFIX = "is";
 
+    /**
+     * 获取field对象
+     *
+     * @param clazz
+     * @param fieldName
+     * @return
+     */
     public static Field getField(Class<?> clazz, String fieldName) {
         for (Class<?> searchType = clazz; searchType != Object.class; searchType = searchType.getSuperclass()) {
             try {
@@ -31,6 +45,14 @@ public class ReflectUtils {
         return null;
     }
 
+    /**
+     * 获取setter方法
+     *
+     * @param clazz
+     * @param propertyName
+     * @param parameterType
+     * @return
+     */
     public static Method getWriteMethod(Class<?> clazz, String propertyName, Class<?> parameterType) {
         String setterMethodName = SETTER_PREFIX + StringUtils.capitalize(propertyName);
         return getAccessibleMethod(clazz, setterMethodName, parameterType);
@@ -72,10 +94,22 @@ public class ReflectUtils {
         return null;
     }
 
+    /**
+     * 获取类获取的public方法
+     *
+     * @param cls
+     * @return
+     */
     public static Method[] getMethods(final Class<?> cls) {
         return cls.getMethods();
     }
 
+    /**
+     * 获取类中声明的所有方法
+     *
+     * @param cls
+     * @return
+     */
     public static Method[] getDeclaredMethods(final Class<?> cls) {
         return cls.getDeclaredMethods();
     }
