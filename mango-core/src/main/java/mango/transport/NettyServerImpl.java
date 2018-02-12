@@ -79,7 +79,8 @@ public class NettyServerImpl extends AbstractServer {
                     public void initChannel(SocketChannel ch)
                             throws IOException {
 
-                        ch.pipeline().addLast(new NettyDecoder(codec, url, maxContentLength, Constants.HEADER_SIZE, 4), //
+                        ch.pipeline().addLast(
+                                new NettyDecoder(codec, url, maxContentLength, Constants.HEADER_SIZE, 4), //
                                 new NettyEncoder(codec, url), //
                                 new NettyServerHandler());
                     }

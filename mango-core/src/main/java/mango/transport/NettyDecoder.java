@@ -13,9 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * ${DESCRIPTION}
- *
- * @author Ricky Fung
  */
 public class NettyDecoder extends LengthFieldBasedFrameDecoder {
     private Logger logger = LoggerFactory.getLogger(getClass());
